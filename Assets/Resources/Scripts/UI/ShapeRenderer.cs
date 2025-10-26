@@ -3,10 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using Haze;
 
+/// <summary>
+/// A graphic used to draw a single closed polygonal shape based on
+/// a list of vertices. Does not support a texture.
+/// </summary>
 public abstract class ShapeRenderer : MaskableGraphic, ICanvasRaycastFilter
 {
     protected List<Triangulator.Triangle> tris;
 
+    /// <summary>
+    /// Returns the list of vertices making up the shape
+    /// </summary>
+    /// <returns></returns>
     protected abstract List<Vector2> GetVertices();
 
     protected override void OnRectTransformDimensionsChange()
@@ -20,7 +28,7 @@ public abstract class ShapeRenderer : MaskableGraphic, ICanvasRaycastFilter
     {
         vh.Clear();
 
-        tris = Triangulator.Triangulate(GetVertices());
+        tris = Triangulator.TriangulateConvexPolygon(GetVertices());
 
         // We don't set UV because this will only be used as a mask
         // or a solid colored shape
@@ -47,18 +55,17 @@ public abstract class ShapeRenderer : MaskableGraphic, ICanvasRaycastFilter
 
     public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
     {
-
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
             rectTransform, screenPoint, eventCamera, out var local))
             return false;
 
         local -= Vector2.up * rectTransform.rect.height;
-        
+
         // Debug
         foreach (Triangulator.Triangle tri in tris)
         {
             Debug.DrawLine(tri.a, tri.b);
-            Debug.DrawLine(tri.b , tri.c);
+            Debug.DrawLine(tri.b, tri.c);
             Debug.DrawLine(tri.c, tri.a);
         }
 

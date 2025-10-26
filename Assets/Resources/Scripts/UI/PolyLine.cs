@@ -3,26 +3,27 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A graphic used to draw a polygon-based line.
+/// </summary>
 public class PolyLine : ShapeRenderer
 {
     [SerializeField]
-    Vector2 start;
+    public Vector2 localDist;
 
     [SerializeField]
-    Vector2 end;
+    public float thickness;
 
     [SerializeField]
-    float thickness;
-
-    [SerializeField]
-    int circleEdgeCount;
+    public int circleEdgeCount;
 
     protected override List<Vector2> GetVertices()
     {
         List<Vector2> shape = new List<Vector2>();
-        Vector2 localDist = end - start;
 
         float lookAtAngle = Mathf.Atan2(localDist.x, localDist.y) + Mathf.PI;
+
+        Debug.Log(lookAtAngle);
 
         for (int i = 0; i <= circleEdgeCount; i++)
         {
@@ -39,7 +40,7 @@ public class PolyLine : ShapeRenderer
             shape.Add(point);
         }
 
-
+        shape.Add(shape[0]);
 
         return shape;
     }

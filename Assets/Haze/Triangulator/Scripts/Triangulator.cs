@@ -306,11 +306,27 @@ namespace Haze {
 		 * If you wish to change the way the triangles are added (for example, on a different plane than XY), you will have to write your own method for this purpose.
 		 * Note that typically for building a mesh, converting the list of vertices and indices to arrays would be required before passing to the Mesh APIs.
 		 */
-		public static void AddTrianglesToMesh(ref List<Vector3> vertices, ref List<int> indices, List<Triangle> tris, float z, bool clockwise) {
-			foreach(Triangle tri in tris)
+		public static void AddTrianglesToMesh(ref List<Vector3> vertices, ref List<int> indices, List<Triangle> tris, float z, bool clockwise)
+		{
+			foreach (Triangle tri in tris)
 				AddTriangleToMesh(ref vertices, ref indices, tri, z, clockwise);
 		}
 
+		public static List<Triangle> TriangulateConvexPolygon(List<Vector2> convexHullpoints)
+		{
+			List<Triangle> triangles = new List<Triangle>();
+
+			for (int i = 2; i < convexHullpoints.Count; i++)
+			{
+				Vector2 a = convexHullpoints[0];
+				Vector2 b = convexHullpoints[i - 1];
+				Vector2 c = convexHullpoints[i];
+
+				triangles.Add(new Triangle(a, b, c));
+			}
+
+			return triangles;
+		}
 	}
 
 }
