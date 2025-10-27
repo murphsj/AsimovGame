@@ -7,17 +7,15 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     public Color32 borderColor;
 
-    [SerializeField]
-    public Color32 polyColor;
-
+    private Color32 polyColor;
     private PolygonRenderer graphic;
     private RectTransform rect;
     private List<PolyLine> borders;
 
     void Start()
     {
-
         graphic = GetComponent<PolygonRenderer>();
+        polyColor = graphic.color;
         rect = GetComponent<RectTransform>();
         borders = new List<PolyLine>();
         MakeBorders();
@@ -30,13 +28,20 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         RectTransform borderRect = border.AddComponent<RectTransform>();
         PolyLine line = border.AddComponent<PolyLine>();
-        border.transform.SetParent(transform);
+        border.transform.SetParent(transform.parent);
 
         borderRect.localScale = new Vector2(1f, 1f);
         borderRect.pivot = new Vector2(0, 0);
         borderRect.sizeDelta = new Vector2(0, 0);
 
-        borderRect.anchoredPosition = new Vector2(a.x - rect.sizeDelta.x / 2, a.y + rect.sizeDelta.y / 2);
+        Debug.Log(transform.position);
+
+        Vector2 pos = new Vector2(
+            a.x,
+            a.y + rect.sizeDelta.y
+        ) + rect.anchoredPosition;
+
+        borderRect.anchoredPosition = pos;
         line.localDist = b - a;
         line.thickness = 2.3f;
         line.circleEdgeCount = 5;

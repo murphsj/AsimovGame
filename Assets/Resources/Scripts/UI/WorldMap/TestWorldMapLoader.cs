@@ -15,7 +15,7 @@ public class TestWorldMapLoader : MonoBehaviour
     Color32 polyColor;
 
     [SerializeField]
-    Color32 lineColor;
+    GameObject territory;
 
     private static (Vector2, Vector2) GetExtents(List<Vector2> verts)
     {
@@ -41,24 +41,18 @@ public class TestWorldMapLoader : MonoBehaviour
         // The math is a little weird here because our Polygon class draws from top left
         // while Unity's coordinate system has bottom left as the "origin"
         (Vector2 topLeft, Vector2 bottomRight) = GetExtents(verts);
-        Vector2 size = new Vector2(bottomRight.x - topLeft.x, topLeft.y - bottomRight.y);
-        
-        GameObject obj = new GameObject("Polygon");
-        RectTransform rect = obj.AddComponent<RectTransform>();
+        Vector3 size = new Vector3(bottomRight.x - topLeft.x, topLeft.y - bottomRight.y, 1);
+
+        GameObject obj = Instantiate(territory);
+        RectTransform rect = obj.GetComponent<RectTransform>();
         rect.sizeDelta = size;
 
-        PolygonRenderer polygon = obj.AddComponent<PolygonRenderer>();
-        TerritoryButton button = obj.AddComponent<TerritoryButton>();
-        obj.AddComponent<CanvasRenderer>();
-        obj.transform.SetParent(canvas.transform);
+        PolygonRenderer polygon = obj.GetComponent<PolygonRenderer>();
+        TerritoryButton button = obj.GetComponent<TerritoryButton>();
+        obj.transform.SetParent(transform);
 
-        rect.localScale = new Vector2(1f, 1f);
+        rect.localScale = new Vector3(1f, 1f, 1f);
         rect.pivot = new Vector2(0f, 0f);
-
-        button.polyColor = polyColor;
-        button.borderColor = lineColor;
-
-        
 
         rect.anchoredPosition = new Vector2(topLeft.x, topLeft.y - size.y);
 
@@ -78,7 +72,6 @@ public class TestWorldMapLoader : MonoBehaviour
         {
             float x = float.Parse(coords[i]);
             float y = -float.Parse(coords[i + 1]);
-            Debug.Log(x + ", " + y);
             points.Add(new Vector2(x, y));
         }
 
