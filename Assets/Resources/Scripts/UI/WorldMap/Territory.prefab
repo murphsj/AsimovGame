@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5, y: 0}
-  m_SizeDelta: {x: -0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &2128793794119939516
 CanvasRenderer:
@@ -145,11 +145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  verts:
-  - {x: 0, y: 0}
-  - {x: 50, y: 0}
-  - {x: 25, y: -50}
-  - {x: 0, y: 0}
+  verts: []
 --- !u!114 &2475348263379158528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +161,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294935552
+  lineThickness: 0
 --- !u!223 &3175492697082256135
 Canvas:
   m_ObjectHideFlags: 0

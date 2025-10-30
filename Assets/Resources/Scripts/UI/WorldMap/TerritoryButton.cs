@@ -7,6 +7,9 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     public Color32 borderColor;
 
+    [SerializeField]
+    public float lineThickness;
+
     private Color32 polyColor;
     private PolygonRenderer graphic;
     private RectTransform rect;
@@ -34,8 +37,6 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         borderRect.pivot = new Vector2(0, 0);
         borderRect.sizeDelta = new Vector2(0, 0);
 
-        Debug.Log(transform.position);
-
         Vector2 pos = new Vector2(
             a.x,
             a.y + rect.sizeDelta.y
@@ -43,7 +44,7 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         borderRect.anchoredPosition = pos;
         line.localDist = b - a;
-        line.thickness = 2.3f;
+        line.thickness = lineThickness;
         line.circleEdgeCount = 5;
 
         line.color = borderColor;

@@ -15,7 +15,18 @@ public class TestWorldMapLoader : MonoBehaviour
     Color32 polyColor;
 
     [SerializeField]
+    float lineThickness;
+
+    [SerializeField]
     GameObject territory;
+
+    private static void ToWorldCoords(ref Vector2 pos)
+    {
+        pos.y *= -1;
+        // Screen dimensions divided by 2
+        pos.x -= 140;
+        pos.y += 90;
+    }
 
     private static (Vector2, Vector2) GetExtents(List<Vector2> verts)
     {
@@ -61,6 +72,7 @@ public class TestWorldMapLoader : MonoBehaviour
             verts[i] -= topLeft;
         }
         polygon.verts = verts;
+        button.lineThickness = lineThickness;
     }
     
     private List<Vector2> ParsePointList(string pointList)
@@ -71,8 +83,10 @@ public class TestWorldMapLoader : MonoBehaviour
         for (int i = 0; i < coords.Length-2; i += 2)
         {
             float x = float.Parse(coords[i]);
-            float y = -float.Parse(coords[i + 1]);
-            points.Add(new Vector2(x, y));
+            float y = float.Parse(coords[i + 1]);
+            Vector2 pos = new Vector2(x, y);
+            ToWorldCoords(ref pos);
+            points.Add(pos);
         }
 
         return points;

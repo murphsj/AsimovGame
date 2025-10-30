@@ -23,8 +23,6 @@ public class PolyLine : ShapeRenderer
 
         float lookAtAngle = Mathf.Atan2(localDist.x, localDist.y) + Mathf.PI;
 
-        Debug.Log(lookAtAngle);
-
         for (int i = 0; i <= circleEdgeCount; i++)
         {
             float theta = (float)i / circleEdgeCount * Mathf.PI - lookAtAngle;
