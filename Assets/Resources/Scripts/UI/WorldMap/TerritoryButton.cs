@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -10,7 +12,13 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     public float lineThickness;
 
-    private Color32 polyColor;
+    [SerializeField]
+    public Image stripeImage;
+
+    public Territory territory;
+    public MapManager manager;
+
+    private Color polyColor;
     private PolygonRenderer graphic;
     private RectTransform rect;
     private List<PolyLine> borders;
@@ -22,6 +30,29 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         rect = GetComponent<RectTransform>();
         borders = new List<PolyLine>();
         MakeBorders();
+    }
+
+    public void UpdateHoverFlash(float flashBrightness, float baseBrightness)
+    {
+        float brightness = Mathf.Abs(Mathf.Sin(Time.time * 3)) * flashBrightness + baseBrightness;
+        graphic.color = Color.Lerp(polyColor, Color.white, brightness);
+        SetOutlineColor(Color.Lerp(borderColor, Color.white, brightness));
+    }
+
+    public void Unhover()
+    {
+        graphic.color = polyColor;
+        SetOutlineColor(borderColor);
+    }
+    
+    private void SetOutlineColor(Color color)
+    {
+        foreach (PolyLine line in borders)
+        {
+            line.color = color;
+        }
+
+        stripeImage.color = color;
     }
 
     private void MakeBorderLine(Vector2 a, Vector2 b)
@@ -68,11 +99,12 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        graphic.color = new Color32(255, 0, 0, 255);
+        Debug.Log("hover happened");
+        manager.OnHoverTerritory(territory);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        graphic.color = polyColor;
+        manager.OnUnhoverTerritory(territory);
     }
 }

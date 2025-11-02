@@ -17,7 +17,7 @@ public class PolyLine : ShapeRenderer
     [SerializeField]
     public int circleEdgeCount;
 
-    protected override List<Vector2> GetVertices()
+    public override List<Vector2> GetVertices()
     {
         List<Vector2> shape = new List<Vector2>();
 

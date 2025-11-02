@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Haze;
+using Unity.VisualScripting;
 
 /// <summary>
 /// A graphic used to draw a single closed polygonal shape based on
@@ -15,7 +16,7 @@ public abstract class ShapeRenderer : MaskableGraphic, ICanvasRaycastFilter
     /// Returns the list of vertices making up the shape
     /// </summary>
     /// <returns></returns>
-    protected abstract List<Vector2> GetVertices();
+    public abstract List<Vector2> GetVertices();
 
     protected override void OnRectTransformDimensionsChange()
     {

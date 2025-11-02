@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class Vector2Extensions {
@@ -25,11 +26,41 @@ public static class Vector2Extensions {
             s >= 0 && s + t <= A;
     }
 
+    /// <summary>
+    /// Returns points representing the top left and bottom right extents
+    /// of the list of points.
+    /// </summary>
+    /// <param name="verts"></param>
+    /// <returns></returns>
+    public static (Vector2, Vector2) GetExtents(List<Vector2> verts)
+    {
+        Vector2 topLeft = verts[0];
+        Vector2 bottomRight = verts[0];
+
+        foreach (Vector2 point in verts)
+        {
+            // Find the highest point's y and leftmost point's x
+            topLeft.x = Mathf.Min(point.x, topLeft.x);
+            topLeft.y = Mathf.Max(point.y, topLeft.y);
+
+            // Find lowest point's y and rightmost point's x
+            bottomRight.x = Mathf.Max(point.x, bottomRight.x);
+            bottomRight.y = Mathf.Min(point.y, bottomRight.y);
+        }
+
+        return (topLeft, bottomRight);
+    }
+
     public static void DebugDrawPoint(this Vector2 p)
+    {
+        DebugDrawPoint(p, Color.cyan);
+    }
+
+    public static void DebugDrawPoint(this Vector2 p, Color color)
     {
         Vector2 dispX = new Vector2(1f, 0);
         Vector2 dispY = new Vector2(0, 1f);
-        Debug.DrawLine(p - dispX, p + dispX, Color.cyan);
-        Debug.DrawLine(p - dispY, p + dispY, Color.cyan);
+        Debug.DrawLine(p - dispX, p + dispX, color);
+        Debug.DrawLine(p - dispY, p + dispY, color);
     }
 }
