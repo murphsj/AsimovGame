@@ -3,6 +3,9 @@ using System.IO;
 using System.Xml;
 using UnityEngine;
 
+/// <summary>
+/// Loads the world map from an SVG file when started.
+/// </summary>
 public class MapLoader : MonoBehaviour
 {
     /// The max distance between two points for them to be considered adjacent ///
@@ -69,7 +72,7 @@ public class MapLoader : MonoBehaviour
                         thisTerritory.neighbors.Add(button.territory);
                         break;
                     }
-                    
+
                 }
             }
         }
@@ -90,20 +93,19 @@ public class MapLoader : MonoBehaviour
         obj.GetComponent<PolygonRenderer>().ApplyVerticesWorldSpace(verts);
         obj.lineThickness = lineThickness;
         obj.territory = tData;
-        obj.manager = mapManager;
 
         tData.button = obj;
         SetNeighbors(verts, tData);
 
         allMapTerritories.Add(obj);
     }
-    
+
     private List<Vector2> ParsePointList(string pointList)
     {
         List<Vector2> points = new List<Vector2>();
         string[] coords = pointList.Split(" ");
 
-        for (int i = 0; i < coords.Length-2; i += 2)
+        for (int i = 0; i < coords.Length - 2; i += 2)
         {
             float x = float.Parse(coords[i]);
             float y = float.Parse(coords[i + 1]);
@@ -134,14 +136,18 @@ public class MapLoader : MonoBehaviour
             }
         }
     }
-    
-    void Start()
+
+    public void LoadMap()
     {
-        mapManager = GetComponent<MapManager>();
-        allMapTerritories = new List<TerritoryButton>();
         using (FileStream fs = File.OpenRead(Application.dataPath + @"/Resources/worldMap.svg"))
         {
             LoadSVG(fs);
         }
+    }
+
+    void Start()
+    {
+        mapManager = GetComponent<MapManager>();
+        allMapTerritories = new List<TerritoryButton>();
     }
 }

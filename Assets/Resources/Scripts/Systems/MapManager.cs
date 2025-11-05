@@ -1,8 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A singleton MonoBehavior responsible for handling interaction and simulation of the world map.
+/// </summary>
 public class MapManager : MonoBehaviour
 {
+    public static MapManager instance { get; private set; }
+
     MapLoader loader;
     Territory hoveredTerritory;
 
@@ -34,8 +39,22 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        // Enforce singleton behavior; delete this instance if one already exists
+        if (instance != null && instance != this) 
+        { 
+            Destroy(this); 
+        } 
+        else 
+        { 
+            instance = this; 
+        } 
+    }
+
     void Start()
     {
         loader = GetComponent<MapLoader>();
+        loader.LoadMap();
     }
 }

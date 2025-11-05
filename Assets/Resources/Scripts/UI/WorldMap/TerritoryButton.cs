@@ -16,7 +16,6 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public Image stripeImage;
 
     public Territory territory;
-    public MapManager manager;
 
     private Color polyColor;
     private PolygonRenderer graphic;
@@ -99,12 +98,11 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("hover happened");
-        manager.OnHoverTerritory(territory);
+        MapManager.instance.OnHoverTerritory(territory);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        manager.OnUnhoverTerritory(territory);
+        MapManager.instance.OnUnhoverTerritory(territory);
     }
 }

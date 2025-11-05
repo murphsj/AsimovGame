@@ -457,10 +457,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.12589228
-    y: 1.1599643
-    width: 0.49318624
-    height: 0.42895442
+    x: 0.0077720205
+    y: 0.071428575
+    width: 0.98445594
+    height: 0.85714287
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -652,8 +652,8 @@ MonoBehaviour:
   polyColor:
     serializedVersion: 2
     rgba: 4293375110
-  lineThickness: 1
-  territory: {fileID: 8443284504995294052, guid: 00ef4b8255fb0469480ef5fa4a73dc77, type: 3}
+  lineThickness: 0.5
+  territory: {fileID: 2475348263379158528, guid: 00ef4b8255fb0469480ef5fa4a73dc77, type: 3}
 --- !u!114 &834133401
 MonoBehaviour:
   m_ObjectHideFlags: 0
