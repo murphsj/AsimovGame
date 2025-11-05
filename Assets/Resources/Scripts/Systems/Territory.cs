@@ -1,6 +1,20 @@
 
 using System.Collections.Generic;
 
+class SectorData
+{
+    public int machines;
+    public int resistance;
+}
+
+class TerritoryData
+{
+    public string name;
+    public int civMachines;
+    public int corpMachines;
+    public int govMachines;
+}
+
 public class Territory
 {
     public string name;

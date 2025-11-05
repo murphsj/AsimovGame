@@ -5,7 +5,7 @@ public class PolygonDebugButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     private PolygonRenderer graphic;
 
-    void Start()
+    void Awake()
     {
         graphic = GetComponent<PolygonRenderer>();
     }

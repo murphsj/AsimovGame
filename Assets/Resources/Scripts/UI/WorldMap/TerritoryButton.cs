@@ -22,7 +22,7 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private RectTransform rect;
     private List<PolyLine> borders;
 
-    void Start()
+    void Awake()
     {
         graphic = GetComponent<PolygonRenderer>();
         polyColor = graphic.color;

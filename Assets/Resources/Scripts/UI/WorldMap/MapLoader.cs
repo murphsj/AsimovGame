@@ -8,10 +8,14 @@ using UnityEngine;
 /// </summary>
 public class MapLoader : MonoBehaviour
 {
-    /// The max distance between two points for them to be considered adjacent ///
+    /// <summary>
+    /// The max distance between two points for them to be considered adjacent
+    /// </summary>
     const float NEIGHBOR_POLYGON_MAX_RADIUS = 2;
 
-    /// The min amount of points two polygons must share to be considered neighbors ///
+    /// <summary>
+    /// The min amount of points two polygons must share to be considered neighbors
+    /// </summary>
     const int NEIGHBOR_POLYGON_ADJ_COUNT = 2;
 
     [SerializeField]
@@ -27,7 +31,6 @@ public class MapLoader : MonoBehaviour
     TerritoryButton territory;
 
     List<TerritoryButton> allMapTerritories;
-    MapManager mapManager;
 
     private static void ToWorldCoords(ref Vector2 pos)
     {
@@ -145,9 +148,8 @@ public class MapLoader : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
-        mapManager = GetComponent<MapManager>();
         allMapTerritories = new List<TerritoryButton>();
     }
 }
