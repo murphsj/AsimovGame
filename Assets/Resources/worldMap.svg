@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1366 768">
   <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
-  <g>
-    <polygon points="42.44 17.42 69.73 52.92 10.17 82.52 42.44 17.42" fill="#fff"/>
-    <path d="M42.48,17.89l26.86,34.94-58.62,29.13L42.48,17.89M42.39,16.83L9.61,82.94l60.5-30.07-27.72-36.05h0Z"/>
-  </g>
-  <g>
-    <polygon points="10 83.16 69.78 53.45 53.46 138.79 10 83.16" fill="#fff"/>
-    <path d="M69.44,53.9l-16.12,84.31L10.39,83.25l59.05-29.35M70.12,52.83l-60.5,30.06,43.99,56.31,16.52-86.38h0Z"/>
-  </g>
-  <g>
-    <polygon points="42.88 17.17 121.45 12.21 70.16 52.65 42.88 17.17" fill="#fff"/>
-    <path d="M120.67,12.51l-50.46,39.79-26.85-34.9,77.3-4.89M122.24,11.91l-79.85,5.05,27.72,36.05L122.24,11.91h0Z"/>
-  </g>
-  <g>
-    <polygon points="70.4 53.14 122.04 12.43 121.21 78.76 54.04 138.71 70.4 53.14" fill="#fff"/>
-    <path d="M121.54,12.82l-.82,65.82-66.53,59.39,16.21-84.75L121.54,12.95M122.54,11.91l-52.42,41.1-16.52,86.37,67.94-60.51,1-66.96h0Z"/>
-  </g>
-  <polygon points="155.3 131.97 53.6 139.2 121.21 78.76 155.3 131.97" fill="#fff" stroke="#000" stroke-miterlimit="10"/>
-  <polygon points="155.3 131.97 64.15 182.02 53.6 139.2 155.3 131.97" fill="#fff" stroke="#000" stroke-miterlimit="10"/>
-  <polygon points="289.34 83.13 187.65 90.36 255.25 29.92 289.34 83.13" fill="#fff" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="155.3 131.97 53.6 139.2 121.21 78.76 155.3 131.97" fill="#04ffff" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="155.3 131.97 64.15 182.02 53.6 139.2 155.3 131.97" fill="#05ffff" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="289.34 83.13 187.65 90.36 255.25 29.92 289.34 83.13" fill="#06ffff" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="121.21 78.76 53.6 139.2 61.58 68.51 100.79 33.92 121.21 78.76" fill="#03ffff" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="53.6 139.2 8.53 80.97 61.58 68.51 53.6 139.2" fill="#02ffff" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="61.58 68.51 8.53 80.97 53.6 8.09 61.58 68.51" fill="aqua" stroke="#000" stroke-miterlimit="10"/>
+  <polygon points="100.79 33.92 61.58 68.51 53.6 8.09 100.79 33.92" fill="#01ffff" stroke="#000" stroke-miterlimit="10"/>
 </svg>

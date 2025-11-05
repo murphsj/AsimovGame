@@ -1,0 +1,34 @@
+{
+    "territories": {
+        "1": {
+            "name": "Fieldburg",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        },
+        "2": {
+            "name": "Springton",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        },
+        "3": {
+            "name": "Bloontown",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        },
+        "4": {
+            "name": "Binglesfort",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        },
+        "5": {
+            "name": "Tropica",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        },
+        "6": {
+            "name": "Gooblestead",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        }
+    }
+}
