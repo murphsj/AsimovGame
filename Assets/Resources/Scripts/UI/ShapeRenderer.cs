@@ -63,17 +63,17 @@ public abstract class ShapeRenderer : MaskableGraphic, ICanvasRaycastFilter
         local -= Vector2.up * rectTransform.rect.height;
 
         // Debug
-        foreach (Triangulator.Triangle tri in tris)
-        {
-            Debug.DrawLine(tri.a, tri.b);
-            Debug.DrawLine(tri.b, tri.c);
-            Debug.DrawLine(tri.c, tri.a);
-        }
-
-        Vector2 xoffset = new Vector2(1f, 0);
-        Vector2 yoffset = new Vector2(0, 1f);
-        Debug.DrawLine(local - xoffset, local + xoffset, Color.cyan);
-        Debug.DrawLine(local - yoffset, local + yoffset, Color.cyan);
+        //foreach (Triangulator.Triangle tri in tris)
+        //{
+        //    Debug.DrawLine(tri.a, tri.b);
+        //    Debug.DrawLine(tri.b, tri.c);
+        //    Debug.DrawLine(tri.c, tri.a);
+        //}
+        //
+        //Vector2 xoffset = new Vector2(1f, 0);
+        //Vector2 yoffset = new Vector2(0, 1f);
+        //Debug.DrawLine(local - xoffset, local + xoffset, Color.cyan);
+        //Debug.DrawLine(local - yoffset, local + yoffset, Color.cyan);
 
         foreach (Triangulator.Triangle tri in tris)
         {

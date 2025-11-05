@@ -28,6 +28,10 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         polyColor = graphic.color;
         rect = GetComponent<RectTransform>();
         borders = new List<PolyLine>();
+    }
+
+    void Start()
+    {
         MakeBorders();
     }
 

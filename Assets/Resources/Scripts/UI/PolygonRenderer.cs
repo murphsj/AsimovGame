@@ -11,9 +11,9 @@ public class PolygonRenderer : ShapeRenderer, ICanvasRaycastFilter
 
     private RectTransform rect;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         rect = GetComponent<RectTransform>();
     }

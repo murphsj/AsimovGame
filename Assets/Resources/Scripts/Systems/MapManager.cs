@@ -39,7 +39,7 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    void Awake()
+    private void EnforceSingleton()
     {
         // Enforce singleton behavior; delete this instance if one already exists
         if (instance != null && instance != this) 
@@ -52,9 +52,14 @@ public class MapManager : MonoBehaviour
         } 
     }
 
+    void Awake()
+    {
+        EnforceSingleton();
+        loader = GetComponent<MapLoader>();
+    }
+
     void Start()
     {
-        loader = GetComponent<MapLoader>();
         loader.LoadMap();
     }
 }
