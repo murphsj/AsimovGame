@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// A singleton behavior for controlling the tooltip shown when hovering over territories.
@@ -14,12 +14,11 @@ public class MapTooltip : MonoBehaviour
     TextMeshProUGUI tooltipTextLabel;
 
     private RectTransform rect;
-    private Mouse mouse;
+    private PixelPerfectCamera pixelCamera;
 
     void Update()
     {
-        Debug.Log("Original transform: " + transform.position + " New mouse position: " + mouse.position.ReadValue());
-        rect.anchoredPosition = mouse.position.ReadValue() - new Vector2(Screen.width/2, Screen.height/2);
+        rect.anchoredPosition = GuiUtils.GetGuiMousePosition();
     }
 
     public void ShowTooltip(Territory t)
@@ -49,13 +48,6 @@ public class MapTooltip : MonoBehaviour
     void Awake()
     {
         EnforceSingleton();
-        mouse = Mouse.current;
         rect = GetComponent<RectTransform>();
-    }
-
-    void Start()
-    {
-        //HideTooltip();
-
     }
 }

@@ -353,7 +353,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 1024
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -600,10 +600,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.19825535
-    y: 0.16480446
-    width: 0.60269624
-    height: 0.670391
+    x: 0.06712173
+    y: 0.125
+    width: 0.86461884
+    height: 0.75
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -753,6 +753,7 @@ GameObject:
   - component: {fileID: 834133399}
   - component: {fileID: 834133400}
   - component: {fileID: 834133401}
+  - component: {fileID: 834133402}
   m_Layer: 5
   m_Name: WorldMap
   m_TagString: Untagged
@@ -810,6 +811,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4a6d54cfba345e7b8bb64862796392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
+--- !u!114 &834133402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834133398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79865914ef09f4ca3a58dfcc2abaf922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapSelection
 --- !u!1 &1389342531
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

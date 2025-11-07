@@ -63,4 +63,11 @@ public static class Vector2Extensions {
         Debug.DrawLine(p - dispX, p + dispX, color);
         Debug.DrawLine(p - dispY, p + dispY, color);
     }
+
+    public static Vector2 Round(this Vector2 p)
+    {
+        p.x = Mathf.Round(p.x);
+        p.y = Mathf.Round(p.y);
+        return p;
+    }
 }
