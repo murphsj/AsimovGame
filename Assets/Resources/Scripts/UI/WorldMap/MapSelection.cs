@@ -25,6 +25,11 @@ public class MapSelection : MonoBehaviour
         hoveredTerritory = null;
     }
 
+    public void OnClickTerritory(Territory t)
+    {
+        t.button.Selected = !t.button.Selected;
+    }
+
     void Update()
     {
         if (hoveredTerritory != null)

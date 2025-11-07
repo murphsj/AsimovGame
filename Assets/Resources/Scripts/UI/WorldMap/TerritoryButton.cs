@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField]
-    public Color32 borderColor;
+    public Color baseColor;
+
+    [SerializeField]
+    public Color selectedColor;
 
     [SerializeField]
     public float lineThickness;
@@ -17,7 +20,23 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public Territory territory;
 
+    public bool Selected
+    {
+        set
+        {
+            _selected = value;
+            UpdateVisuals();
+        }
+
+        get
+        {
+            return _selected;
+        }
+    }
+
+    private bool _selected;
     private Color polyColor;
+    private Color borderColor;
     private PolygonRenderer graphic;
     private RectTransform rect;
     private List<PolyLine> borders;
@@ -46,6 +65,26 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         graphic.color = polyColor;
         SetOutlineColor(borderColor);
+    }
+
+    private void SetColor(Color newColor)
+    {
+        Debug.Log(newColor);
+        polyColor = newColor;
+        borderColor = Color.Lerp(newColor, Color.black, 0.3f);
+        graphic.color = newColor;
+        SetOutlineColor(borderColor);
+    }
+
+    private void UpdateVisuals()
+    {
+        Debug.Log(_selected);
+        if (_selected)
+        {
+            SetColor(selectedColor);
+        } else {
+            SetColor(baseColor);
+        }
     }
     
     private void SetOutlineColor(Color color)
@@ -110,5 +149,10 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         MapSelection.instance.OnUnhoverTerritory(territory);
         MapTooltip.instance.HideTooltip();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        MapSelection.instance.OnClickTerritory(territory);
     }
 }
