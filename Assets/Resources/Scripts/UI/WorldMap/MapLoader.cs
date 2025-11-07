@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -29,6 +30,9 @@ public class MapLoader : MonoBehaviour
 
     [SerializeField]
     TerritoryButton territory;
+
+    [SerializeField]
+    TextAsset mapData;
 
     List<TerritoryButton> allMapTerritories;
 
@@ -81,10 +85,10 @@ public class MapLoader : MonoBehaviour
         }
     }
 
-    private void AddTerritory(List<Vector2> verts)
+    private void AddTerritory(List<Vector2> verts, byte territoryId)
     {
         // Make the Territory for this area
-        Territory tData = new Territory("TestTerritory");
+        Territory tData = Territory.FromId(territoryId);
 
         // Setting neighbors as we build the map prevents redundant checks
         SetNeighbors(verts, tData);
@@ -94,11 +98,11 @@ public class MapLoader : MonoBehaviour
         obj.transform.SetParent(transform);
 
         obj.GetComponent<PolygonRenderer>().ApplyVerticesWorldSpace(verts);
+        obj.name = tData.name;
         obj.lineThickness = lineThickness;
         obj.territory = tData;
 
         tData.button = obj;
-        SetNeighbors(verts, tData);
 
         allMapTerritories.Add(obj);
     }
@@ -131,8 +135,12 @@ public class MapLoader : MonoBehaviour
                     case XmlNodeType.Element:
                         if (reader.Name.Equals("polygon"))
                         {
+                            Color polyColor;
+                            ColorUtility.TryParseHtmlString(reader.GetAttribute("fill"), out polyColor);
+                            byte territoryId = (byte)(polyColor.r * 255);
+
                             List<Vector2> verts = ParsePointList(reader.GetAttribute("points"));
-                            AddTerritory(verts);
+                            AddTerritory(verts, territoryId);
                         }
                         break;
                 }
@@ -142,6 +150,8 @@ public class MapLoader : MonoBehaviour
 
     public void LoadMap()
     {
+        Territory.SetMapData(mapData);
+
         using (FileStream fs = File.OpenRead(Application.dataPath + @"/Resources/worldMap.svg"))
         {
             LoadSVG(fs);

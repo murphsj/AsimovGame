@@ -103,10 +103,12 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         MapManager.instance.OnHoverTerritory(territory);
+        MapTooltip.instance.ShowTooltip(territory);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         MapManager.instance.OnUnhoverTerritory(territory);
+        MapTooltip.instance.HideTooltip();
     }
 }

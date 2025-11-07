@@ -1,32 +1,37 @@
 {
     "territories": {
-        "1": {
+        "0": {
             "name": "Fieldburg",
             "machines": [100, 100, 100],
             "resistance": [100, 100, 100]
         },
-        "2": {
+        "1": {
             "name": "Springton",
             "machines": [100, 100, 100],
             "resistance": [100, 100, 100]
         },
-        "3": {
+        "2": {
             "name": "Bloontown",
             "machines": [100, 100, 100],
             "resistance": [100, 100, 100]
         },
-        "4": {
+        "3": {
             "name": "Binglesfort",
             "machines": [100, 100, 100],
             "resistance": [100, 100, 100]
         },
-        "5": {
+        "4": {
             "name": "Tropica",
             "machines": [100, 100, 100],
             "resistance": [100, 100, 100]
         },
-        "6": {
+        "5": {
             "name": "Gooblestead",
+            "machines": [100, 100, 100],
+            "resistance": [100, 100, 100]
+        },
+        "6": {
+            "name": "Wormhole",
             "machines": [100, 100, 100],
             "resistance": [100, 100, 100]
         }

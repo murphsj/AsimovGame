@@ -3,21 +3,21 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 class TerritoryData
 {
     public string name;
-    public int3 machines;
-    public int3 resistance;
+    public int[] machines;
+    public int[] resistance;
 }
 
 [Serializable]
 class MapData
 {
     /// <summary>
-    /// Dictionary of territories on the map.
-    /// Key is the ID of the territory, an unsigned 8-bit int.
+    /// List of territories on the map.
     /// </summary>
     public Dictionary<byte, TerritoryData> territories;
 }
@@ -26,13 +26,13 @@ public class Territory
 {
     private static MapData mapData;
 
-    public string name;
-    public List<Territory> neighbors;
+    public string name { get; private set; }
+    public List<Territory> neighbors { get; private set; }
     public TerritoryButton button;
 
     public static void SetMapData(TextAsset jsonFile)
     {
-        mapData = JsonUtility.FromJson<MapData>(jsonFile.text);
+        mapData = JsonConvert.DeserializeObject<MapData>(jsonFile.text);
     }
 
     public Territory(string name)
@@ -41,13 +41,7 @@ public class Territory
         neighbors = new List<Territory>();
     }
 
-    public Territory(string name, List<Territory> neighbors)
-    {
-        this.name = name;
-        this.neighbors = neighbors;
-    }
-
-    public static Territory FromId(byte territoryId, List<Territory> neighbors)
+    public static Territory FromId(byte territoryId)
     {
         if (mapData == null) throw new InvalidOperationException(
             "Territory FromId: tried to create a Territory from id with no map data loaded"
