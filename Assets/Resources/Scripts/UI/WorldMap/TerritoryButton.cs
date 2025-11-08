@@ -52,6 +52,7 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     void Start()
     {
         MakeBorders();
+        UpdateVisuals();
     }
 
     public void UpdateHoverFlash(float flashBrightness, float baseBrightness)
@@ -69,7 +70,6 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private void SetColor(Color newColor)
     {
-        Debug.Log(newColor);
         polyColor = newColor;
         borderColor = Color.Lerp(newColor, Color.black, 0.3f);
         graphic.color = newColor;
@@ -78,7 +78,6 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private void UpdateVisuals()
     {
-        Debug.Log(_selected);
         if (_selected)
         {
             SetColor(selectedColor);
