@@ -1,11 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEngine;
+using Services;
 
+[RegisterService]
 /// <summary>
-/// Loads the world map from an SVG file when started.
+/// Handles loading the world map from an SVG file.
 /// </summary>
 public class MapLoader : MonoBehaviour
 {
@@ -75,8 +76,8 @@ public class MapLoader : MonoBehaviour
                     if (neighborCount >= NEIGHBOR_POLYGON_ADJ_COUNT)
                     {
                         // These items are both neighbors of each other
-                        button.territory.neighbors.Add(thisTerritory);
-                        thisTerritory.neighbors.Add(button.territory);
+                        button.territory.Neighbors.Add(thisTerritory);
+                        thisTerritory.Neighbors.Add(button.territory);
                         break;
                     }
 
@@ -98,7 +99,7 @@ public class MapLoader : MonoBehaviour
         obj.transform.SetParent(transform);
 
         obj.GetComponent<PolygonRenderer>().ApplyVerticesWorldSpace(verts);
-        obj.name = tData.name;
+        obj.name = tData.Name;
         obj.lineThickness = lineThickness;
         obj.territory = tData;
 

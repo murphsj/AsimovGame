@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -14,7 +15,6 @@ public class MapTooltip : MonoBehaviour
     TextMeshProUGUI tooltipTextLabel;
 
     private RectTransform rect;
-    private PixelPerfectCamera pixelCamera;
 
     void Update()
     {
@@ -24,7 +24,10 @@ public class MapTooltip : MonoBehaviour
     public void ShowTooltip(Territory t)
     {
         gameObject.SetActive(true);
-        tooltipTextLabel.text = t.name;
+        tooltipTextLabel.text = t.Name
+            + "\nCiv: " + t.getInfectedPercent(MachineType.Civ)
+            + "\nCom: " + t.getInfectedPercent(MachineType.Com)
+            + "\nGov: " + t.getInfectedPercent(MachineType.Gov);
     }
 
     public void HideTooltip()

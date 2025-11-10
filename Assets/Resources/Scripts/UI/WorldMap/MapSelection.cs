@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +9,7 @@ public class MapSelection : MonoBehaviour
     public static MapSelection instance { get; private set; }
 
     Territory hoveredTerritory;
+    HashSet<Territory> selectedTerritories;
 
     public void OnHoverTerritory(Territory t)
     {
@@ -18,7 +20,7 @@ public class MapSelection : MonoBehaviour
     public void OnUnhoverTerritory(Territory t)
     {
         hoveredTerritory?.button.Unhover();
-        foreach (Territory neighbor in hoveredTerritory.neighbors)
+        foreach (Territory neighbor in hoveredTerritory.Neighbors)
         {
             neighbor.button.Unhover();
         }
@@ -27,7 +29,15 @@ public class MapSelection : MonoBehaviour
 
     public void OnClickTerritory(Territory t)
     {
-        t.button.Selected = !t.button.Selected;
+        if (selectedTerritories.Contains(t))
+        {
+            selectedTerritories.Remove(t);
+            t.button.Selected = false;
+        // TODO: check for max territories per turn stat
+        } else if (selectedTerritories.Count < 3) {
+            selectedTerritories.Add(t);
+            t.button.Selected = true;
+        }
     }
 
     void Update()
@@ -35,7 +45,7 @@ public class MapSelection : MonoBehaviour
         if (hoveredTerritory != null)
         {
             hoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
-            foreach (Territory neighbor in hoveredTerritory.neighbors)
+            foreach (Territory neighbor in hoveredTerritory.Neighbors)
             {
                 neighbor.button.UpdateHoverFlash(0.15f, 0.15f);
             }
@@ -58,5 +68,6 @@ public class MapSelection : MonoBehaviour
     void Awake()
     {
         EnforceSingleton();
+        selectedTerritories = new HashSet<Territory>();
     }
 }

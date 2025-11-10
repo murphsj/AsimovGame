@@ -24,10 +24,15 @@ class MapData
 
 public class Territory
 {
+    
     private static MapData mapData;
 
-    public string name { get; private set; }
-    public List<Territory> neighbors { get; private set; }
+    public string Name { get; private set; }
+    public List<Territory> Neighbors { get; private set; }
+    public int[] Machines { get; private set; }
+    public int[] Infection { get; private set; }
+    public int[] BaseResistance { get; private set; }
+    
     public TerritoryButton button;
 
     public static void SetMapData(TextAsset jsonFile)
@@ -35,10 +40,31 @@ public class Territory
         mapData = JsonConvert.DeserializeObject<MapData>(jsonFile.text);
     }
 
-    public Territory(string name)
+    Territory(TerritoryData data)
     {
-        this.name = name;
-        neighbors = new List<Territory>();
+        Name = data.name;
+        Machines = data.machines;
+        Infection = new int[] { 0, 0, 0 };
+        BaseResistance = data.resistance;
+        Neighbors = new List<Territory>();
+    }
+
+    public float getInfectedPercent(MachineType mType)
+    {
+        if (mType == MachineType.ALL)
+        {
+            int totalMachines = 0;
+            int totalInfection = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                totalMachines += Machines[i];
+                totalInfection += Infection[i];
+            }
+
+            return totalInfection / totalMachines;
+        } else {
+            return Infection[(int)mType] / Machines[(int)mType] * 100;
+        }
     }
 
     public static Territory FromId(byte territoryId)
@@ -52,7 +78,6 @@ public class Territory
         );
 
         TerritoryData data = mapData.territories[territoryId];
-
-        return new Territory(data.name);
+        return new Territory(data);
     }
 }
