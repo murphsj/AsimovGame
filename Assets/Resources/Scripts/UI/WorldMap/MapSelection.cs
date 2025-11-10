@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Services;
 
 /// <summary>
-/// A singleton MonoBehavior responsible for handling selection of map tiles.
+/// Handles selection of map tiles.
 /// </summary>
+[RegisterService]
 public class MapSelection : MonoBehaviour
 {
-    public static MapSelection instance { get; private set; }
-
     Territory hoveredTerritory;
     HashSet<Territory> selectedTerritories;
 
@@ -52,22 +52,8 @@ public class MapSelection : MonoBehaviour
         }
     }
 
-    private void EnforceSingleton()
-    {
-        // Enforce singleton behavior; delete this instance if one already exists
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
-    }
-
     void Awake()
     {
-        EnforceSingleton();
         selectedTerritories = new HashSet<Territory>();
     }
 }

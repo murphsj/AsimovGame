@@ -18,6 +18,7 @@ namespace Services
         [RuntimeInitializeOnLoadMethod]
         public static void Initialize()
         {
+            services = new Dictionary<Type, object>();
             foreach (Type service in GetAllAutoRegisterServices())
             {
                 if (IsRegistered(service)) continue;
@@ -69,6 +70,18 @@ namespace Services
             services[serviceType] = instance;
         }
 
+        private static void RegisterForced(Type type, object instance)
+        {
+            if (IsRegistered(type))
+            {
+                throw new InvalidOperationException(
+                    "Services Register: tried to register an already registered service: " + type.Name
+                );
+            }
+
+            services[type] = instance;
+        }
+
         private static IEnumerable<Type> GetAllAutoRegisterServices()
         {
             // Get every C# object with the RegisterService attribute
@@ -87,7 +100,7 @@ namespace Services
 
         private static void FindOrCreateMonoBehaviorService(Type serviceType)
         {
-            object inGameService = UnityEngine.Object.FindAnyObjectByType(serviceType);
+            var inGameService = UnityEngine.Object.FindAnyObjectByType(serviceType);
 
             if (inGameService == null)
             {
@@ -96,7 +109,9 @@ namespace Services
                 newObject.name = serviceType.Name;
             }
 
-            Register(inGameService);
+            // inGameService is now a Component or UnityEngine.Object
+            // so we need to change its type
+            RegisterForced(serviceType, inGameService);
         }
     }
 }

@@ -1,3 +1,6 @@
+using Services;
+
+[RegisterService]
 public class PlayerStats
 {
     public int MaxTargetedTerritories = 3;

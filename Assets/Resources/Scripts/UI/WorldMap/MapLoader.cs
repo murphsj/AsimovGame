@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEngine;
-using Services;
 
-[RegisterService]
 /// <summary>
 /// Handles loading the world map from an SVG file.
 /// </summary>

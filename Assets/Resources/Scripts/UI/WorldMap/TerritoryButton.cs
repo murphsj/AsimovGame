@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
+using Services;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,6 +35,8 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
 
     private bool _selected;
+    private MapSelection mapSelection;
+    private MapTooltip mapTooltip;
     private Color polyColor;
     private Color borderColor;
     private PolygonRenderer graphic;
@@ -43,6 +45,9 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     void Awake()
     {
+        mapSelection = ServiceLocator.Get<MapSelection>();
+        mapTooltip = ServiceLocator.Get<MapTooltip>();
+
         graphic = GetComponent<PolygonRenderer>();
         polyColor = graphic.color;
         rect = GetComponent<RectTransform>();
@@ -140,18 +145,18 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        MapSelection.instance.OnHoverTerritory(territory);
-        MapTooltip.instance.ShowTooltip(territory);
+        mapSelection.OnHoverTerritory(territory);
+        mapTooltip.ShowTooltip(territory);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        MapSelection.instance.OnUnhoverTerritory(territory);
-        MapTooltip.instance.HideTooltip();
+        mapSelection.OnUnhoverTerritory(territory);
+        mapTooltip.HideTooltip();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        MapSelection.instance.OnClickTerritory(territory);
+        mapSelection.OnClickTerritory(territory);
     }
 }

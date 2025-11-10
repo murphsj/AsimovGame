@@ -1,16 +1,13 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
+using Services;
 
 /// <summary>
-/// A singleton behavior for controlling the tooltip shown when hovering over territories.
+/// Manages the tooltip shown when hovering over territories.
 /// </summary>
+[RegisterService]
 public class MapTooltip : MonoBehaviour
 {
-    public static MapTooltip instance { get; private set; }
-
     [SerializeField]
     TextMeshProUGUI tooltipTextLabel;
 
@@ -35,22 +32,8 @@ public class MapTooltip : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void EnforceSingleton()
-    {
-        // Enforce singleton behavior; delete this instance if one already exists
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
-    }
-
     void Awake()
     {
-        EnforceSingleton();
         rect = GetComponent<RectTransform>();
     }
 }
