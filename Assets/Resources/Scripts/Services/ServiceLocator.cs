@@ -95,7 +95,7 @@ namespace Services
 
         private static void RegisterNewInstance(Type serviceType)
         {
-            Register(serviceType.Instantiate());
+            RegisterForced(serviceType, serviceType.Instantiate());
         }
 
         private static void FindOrCreateMonoBehaviorService(Type serviceType)

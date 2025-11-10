@@ -11,6 +11,8 @@ public class MapSelection : MonoBehaviour
     Territory hoveredTerritory;
     HashSet<Territory> selectedTerritories;
 
+    private PlayerStats playerStats;
+
     public void OnHoverTerritory(Territory t)
     {
         hoveredTerritory?.button.Unhover();
@@ -33,8 +35,7 @@ public class MapSelection : MonoBehaviour
         {
             selectedTerritories.Remove(t);
             t.button.Selected = false;
-        // TODO: check for max territories per turn stat
-        } else if (selectedTerritories.Count < 3) {
+        } else if (selectedTerritories.Count < playerStats.MaxTargetedTerritories) {
             selectedTerritories.Add(t);
             t.button.Selected = true;
         }
@@ -42,6 +43,8 @@ public class MapSelection : MonoBehaviour
 
     void Update()
     {
+        playerStats = ServiceLocator.Get<PlayerStats>();
+        
         if (hoveredTerritory != null)
         {
             hoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
