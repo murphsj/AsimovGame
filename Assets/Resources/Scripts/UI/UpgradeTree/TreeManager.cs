@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TreeManager : MonoBehaviour
 {
+    [SerializeField]
+    Image upgradeTreeWindow;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,6 +15,6 @@ public class TreeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
