@@ -267,8 +267,9 @@ GameObject:
   - component: {fileID: 252491223}
   - component: {fileID: 252491222}
   - component: {fileID: 252491221}
+  - component: {fileID: 252491224}
   m_Layer: 5
-  m_Name: Button
+  m_Name: NextDayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,7 +335,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 252491222}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -376,6 +377,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252491219}
   m_CullTransparentMesh: 1
+--- !u!114 &252491224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252491219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c04e6d2513f1416084081d60f263ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NextDayButton
 --- !u!1 &261770789
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,10 +735,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.14930876
-    y: 0.1460177
-    width: 0.70046085
-    height: 0.7079646
+    x: 0.042168677
+    y: 0.058715597
+    width: 0.91566265
+    height: 0.88073397
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -933,6 +946,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4a6d54cfba345e7b8bb64862796392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
+  AdvanceDay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &834133402
 MonoBehaviour:
   m_ObjectHideFlags: 0

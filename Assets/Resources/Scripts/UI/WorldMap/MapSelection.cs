@@ -8,47 +8,59 @@ using Services;
 [RegisterService]
 public class MapSelection : MonoBehaviour
 {
-    Territory hoveredTerritory;
-    HashSet<Territory> selectedTerritories;
+    public Territory HoveredTerritory { get; private set; }
+    public HashSet<Territory> SelectedTerritories { get; private set; }
 
     private PlayerStats playerStats;
 
     public void OnHoverTerritory(Territory t)
     {
-        hoveredTerritory?.button.Unhover();
-        hoveredTerritory = t;
+        HoveredTerritory?.button.Unhover();
+        HoveredTerritory = t;
     }
 
     public void OnUnhoverTerritory(Territory t)
     {
-        hoveredTerritory?.button.Unhover();
-        foreach (Territory neighbor in hoveredTerritory.Neighbors)
+        HoveredTerritory?.button.Unhover();
+        foreach (Territory neighbor in HoveredTerritory.Neighbors)
         {
             neighbor.button.Unhover();
         }
-        hoveredTerritory = null;
+        HoveredTerritory = null;
     }
 
     public void OnClickTerritory(Territory t)
     {
-        if (selectedTerritories.Contains(t))
+        if (SelectedTerritories.Contains(t))
         {
-            selectedTerritories.Remove(t);
+            SelectedTerritories.Remove(t);
             t.button.Selected = false;
-        } else if (selectedTerritories.Count < playerStats.MaxTargetedTerritories) {
-            selectedTerritories.Add(t);
+        }
+        else if (SelectedTerritories.Count < playerStats.MaxTargetedTerritories)
+        {
+            SelectedTerritories.Add(t);
             t.button.Selected = true;
         }
+    }
+    
+    public void ClearSelection()
+    {
+        foreach (Territory t in SelectedTerritories)
+        {
+            t.button.Selected = false;
+        }
+
+        SelectedTerritories.Clear();
     }
 
     void Update()
     {
         playerStats = ServiceLocator.Get<PlayerStats>();
         
-        if (hoveredTerritory != null)
+        if (HoveredTerritory != null)
         {
-            hoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
-            foreach (Territory neighbor in hoveredTerritory.Neighbors)
+            HoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
+            foreach (Territory neighbor in HoveredTerritory.Neighbors)
             {
                 neighbor.button.UpdateHoverFlash(0.15f, 0.15f);
             }
@@ -57,6 +69,6 @@ public class MapSelection : MonoBehaviour
 
     void Awake()
     {
-        selectedTerritories = new HashSet<Territory>();
+        SelectedTerritories = new HashSet<Territory>();
     }
 }

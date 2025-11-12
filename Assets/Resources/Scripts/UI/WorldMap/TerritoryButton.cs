@@ -10,6 +10,9 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public Color baseColor;
 
     [SerializeField]
+    public Color fullyInfectedColor;
+
+    [SerializeField]
     public Color selectedColor;
 
     [SerializeField]
@@ -81,13 +84,13 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         SetOutlineColor(borderColor);
     }
 
-    private void UpdateVisuals()
+    public void UpdateVisuals()
     {
         if (_selected)
         {
             SetColor(selectedColor);
         } else {
-            SetColor(baseColor);
+            SetColor(Color.Lerp(baseColor, fullyInfectedColor, territory.GetInfectedPercent(MachineType.ALL)));
         }
     }
     

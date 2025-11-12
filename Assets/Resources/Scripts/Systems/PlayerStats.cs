@@ -5,7 +5,7 @@ public class PlayerStats
 {
     public int MaxTargetedTerritories = 3;
 
-    public int[] AttackPower = new int[] { 4, 4, 4 };
+    public int[] AttackPower = new int[] { 10, 10, 10 };
 
     public PlayerStats()
     {

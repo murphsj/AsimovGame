@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Collections;
 
 [Serializable]
 class TerritoryData
@@ -49,7 +50,7 @@ public class Territory
         Neighbors = new List<Territory>();
     }
 
-    public float getInfectedPercent(MachineType mType)
+    public float GetInfectedPercent(MachineType mType)
     {
         if (mType == MachineType.ALL)
         {
@@ -61,10 +62,51 @@ public class Territory
                 totalInfection += Infection[i];
             }
 
-            return totalInfection / totalMachines;
-        } else {
-            return Infection[(int)mType] / Machines[(int)mType] * 100;
+            return (float)totalInfection / totalMachines;
         }
+        else
+        {
+            return (float)Infection[(int)mType] / Machines[(int)mType];
+        }
+    }
+
+    public void ChangeInfectionLevels(int[] changeLevel)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Infection[i] += changeLevel[i];
+        }
+
+        button.UpdateVisuals();
+    }
+    
+    public IEnumerator ChangeInfectionLevelsAnimated(int[] changeLevel, float animationTime)
+    {
+        float timePassed = 0;
+        float[] velocity = new float[3];
+        float[] current = new float[3] { Infection[0], Infection[1], Infection[2] };
+
+        while (timePassed < animationTime)
+        {
+            timePassed += Time.deltaTime;
+            for (int i = 0; i < 3; i++)
+            {
+                current[i] = Mathf.SmoothDamp(
+                    current[i],
+                    Infection[i] + changeLevel[i],
+                    ref velocity[i],
+                    animationTime
+                );
+
+                Infection[i] = Mathf.RoundToInt(current[i]);
+            }
+
+            button.UpdateVisuals();
+
+            yield return null;
+        }
+
+        ChangeInfectionLevels(changeLevel);
     }
 
     public static Territory FromId(byte territoryId)

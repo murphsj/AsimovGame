@@ -12,24 +12,31 @@ public class MapTooltip : MonoBehaviour
     TextMeshProUGUI tooltipTextLabel;
 
     private RectTransform rect;
+    private Territory activeTerritory;
 
     void Update()
     {
         rect.anchoredPosition = GuiUtils.GetGuiMousePosition();
+        tooltipTextLabel.text = activeTerritory.Name
+            + "\nCiv: " + activeTerritory.GetInfectedPercent(MachineType.Civ) * 100 + "%"
+            + "\nCom: " + activeTerritory.GetInfectedPercent(MachineType.Com) * 100 + "%"
+            + "\nGov: " + activeTerritory.GetInfectedPercent(MachineType.Gov) * 100 + "%";
     }
 
     public void ShowTooltip(Territory t)
     {
+        activeTerritory = t;
         gameObject.SetActive(true);
-        tooltipTextLabel.text = t.Name
-            + "\nCiv: " + t.getInfectedPercent(MachineType.Civ)
-            + "\nCom: " + t.getInfectedPercent(MachineType.Com)
-            + "\nGov: " + t.getInfectedPercent(MachineType.Gov);
     }
 
     public void HideTooltip()
     {
         gameObject.SetActive(false);
+    }
+
+    void Start()
+    {
+        HideTooltip();
     }
 
     void Awake()

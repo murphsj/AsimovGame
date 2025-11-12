@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class NextDayButton : MonoBehaviour
 {
-    private MapManager mapManager;
+    private TurnManager turnManager;
     private Button button;
 
     void Awake()
@@ -15,11 +15,11 @@ public class NextDayButton : MonoBehaviour
 
     void Start()
     {
-        mapManager = ServiceLocator.Get<MapManager>();
+        turnManager = ServiceLocator.Get<TurnManager>();
     }
 
     void Clicked()
     {
-        mapManager.AdvanceDay.Invoke();
+        turnManager.AdvanceDay.Invoke();
     }
 }
