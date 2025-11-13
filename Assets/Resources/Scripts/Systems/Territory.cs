@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections;
+using UnityEngine.Events;
 
 [Serializable]
 class TerritoryData
@@ -33,6 +34,7 @@ public class Territory
     public int[] Machines { get; private set; }
     public int[] Infection { get; private set; }
     public int[] BaseResistance { get; private set; }
+    public UnityEvent InfectionChanged;
     
     public TerritoryButton button;
 
@@ -78,35 +80,6 @@ public class Territory
         }
 
         button.UpdateVisuals();
-    }
-    
-    public IEnumerator ChangeInfectionLevelsAnimated(int[] changeLevel, float animationTime)
-    {
-        float timePassed = 0;
-        float[] velocity = new float[3];
-        float[] current = new float[3] { Infection[0], Infection[1], Infection[2] };
-
-        while (timePassed < animationTime)
-        {
-            timePassed += Time.deltaTime;
-            for (int i = 0; i < 3; i++)
-            {
-                current[i] = Mathf.SmoothDamp(
-                    current[i],
-                    Infection[i] + changeLevel[i],
-                    ref velocity[i],
-                    animationTime
-                );
-
-                Infection[i] = Mathf.RoundToInt(current[i]);
-            }
-
-            button.UpdateVisuals();
-
-            yield return null;
-        }
-
-        ChangeInfectionLevels(changeLevel);
     }
 
     public static Territory FromId(byte territoryId)

@@ -10,6 +10,7 @@ public class MapSelection : MonoBehaviour
 {
     public Territory HoveredTerritory { get; private set; }
     public HashSet<Territory> SelectedTerritories { get; private set; }
+    public bool SelectionEnabled = true;
 
     private PlayerStats playerStats;
 
@@ -57,7 +58,7 @@ public class MapSelection : MonoBehaviour
     {
         playerStats = ServiceLocator.Get<PlayerStats>();
         
-        if (HoveredTerritory != null)
+        if (SelectionEnabled && HoveredTerritory != null)
         {
             HoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
             foreach (Territory neighbor in HoveredTerritory.Neighbors)

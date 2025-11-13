@@ -50,6 +50,7 @@ public class TurnManager : MonoBehaviour
         GenerateTurnActions();
         StartCoroutine(ProcessTurnActionQueue());
         mapSelection.ClearSelection();
+        mapSelection.SelectionEnabled = false;
     }
 
     void Awake()
