@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine.Events;
 using System.Linq;
+using Services;
 
 [Serializable]
 class TerritoryData
@@ -29,6 +30,7 @@ public class Territory
 {
     public static List<Territory> AllTerritories { get; private set; } = new List<Territory>();
     private static MapData mapData;
+    private static PlayerStats playerStats;
 
     public string Name { get; private set; }
     public List<Territory> Neighbors { get; private set; }
@@ -39,9 +41,10 @@ public class Territory
     
     public TerritoryButton button;
 
-    public static void SetMapData(TextAsset jsonFile)
+    public static void Init(TextAsset jsonFile)
     {
         mapData = JsonConvert.DeserializeObject<MapData>(jsonFile.text);
+        playerStats = ServiceLocator.Get<PlayerStats>();
     }
 
     Territory(TerritoryData data)
@@ -93,6 +96,28 @@ public class Territory
     public void SetInfectionLevel(MachineType mType, int changeLevel)
     {
         Infection[(int)mType] = Math.Clamp(changeLevel, 0, 100);
+    }
+
+    public bool IsOverInfectionThreshold(float level)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if ((float)Infection[i] / Machines[i] >= level) return true;
+        }
+
+        return false;
+    }
+
+    public bool CanBePlayerTargeted()
+    {
+        if (IsOverInfectionThreshold(playerStats.TargetInfectedThreshhold)) return true;
+
+        foreach (Territory neighbor in Neighbors)
+        {
+            if (neighbor.IsOverInfectionThreshold(playerStats.TargetInfectedThreshhold)) return true;
+        }
+
+        return false;
     }
 
     public static Territory FromId(byte territoryId)

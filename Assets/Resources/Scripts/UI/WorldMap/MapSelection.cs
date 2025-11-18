@@ -16,13 +16,15 @@ public class MapSelection : MonoBehaviour
 
     public void OnHoverTerritory(Territory t)
     {
+        if (!t.CanBePlayerTargeted()) return;
         HoveredTerritory?.button.Unhover();
         HoveredTerritory = t;
     }
 
     public void OnUnhoverTerritory(Territory t)
     {
-        HoveredTerritory?.button.Unhover();
+        if (HoveredTerritory == null) return;
+        HoveredTerritory.button.Unhover();
         foreach (Territory neighbor in HoveredTerritory.Neighbors)
         {
             neighbor.button.Unhover();
@@ -32,6 +34,7 @@ public class MapSelection : MonoBehaviour
 
     public void OnClickTerritory(Territory t)
     {
+        if (!t.CanBePlayerTargeted()) return;
         if (SelectedTerritories.Contains(t))
         {
             SelectedTerritories.Remove(t);

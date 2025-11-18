@@ -23,16 +23,40 @@ public class TurnManager : MonoBehaviour
     private void GenerateTurnActions()
     {
         turnActions.Clear();
-        // Generate the player's attack action
-        foreach (Territory t in mapSelection.SelectedTerritories)
+
+        if (Day == 1)
         {
-            turnActions.Enqueue(new InfectChangeAction(t, playerStats.AttackPower));
+            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower));
         }
 
-        // Generate counterattack
+        HashSet<Territory> toAttack = new HashSet<Territory>();
+
+        // Pick enemy attack targets
         for (int i = 0; i < playerStats.EnemyAttackTargetCount; i++)
         {
-            Territory target = Territory.AllTerritories[Random.Range(0, Territory.AllTerritories.Count)];
+            Territory target;
+            do
+            {
+                target = Territory.AllTerritories[Random.Range(0, Territory.AllTerritories.Count)];
+            } while (toAttack.Contains(target));
+            toAttack.Add(target);
+        }
+
+        // Generate the player's attack action
+        foreach (Territory target in mapSelection.SelectedTerritories)
+        {
+            turnActions.Enqueue(new InfectChangeAction(target, playerStats.AttackPower));
+            if (toAttack.Contains(target))
+            {
+                // Enqueue the counterattack action early so it happens right after
+                turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
+                toAttack.Remove(target);
+            }
+        }
+
+        // Now we can add the enemy attack actions that are remaining
+        foreach (Territory target in toAttack)
+        {
             turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
         }
     }
