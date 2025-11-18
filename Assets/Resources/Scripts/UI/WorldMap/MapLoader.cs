@@ -149,7 +149,7 @@ public class MapLoader : MonoBehaviour
 
     public void LoadMap()
     {
-        Territory.SetMapData(mapData);
+        Territory.Init(mapData);
 
         using (FileStream fs = File.OpenRead(Application.dataPath + @"/Resources/worldMap.svg"))
         {

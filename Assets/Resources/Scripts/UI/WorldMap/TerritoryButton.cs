@@ -122,7 +122,7 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             a.y + rect.sizeDelta.y
         ) + rect.anchoredPosition;
 
-        borderRect.anchoredPosition = pos;
+        borderRect.anchoredPosition3D = pos;
         line.localDist = b - a;
         line.thickness = lineThickness;
         line.circleEdgeCount = 5;

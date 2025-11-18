@@ -10,18 +10,21 @@ public class MapSelection : MonoBehaviour
 {
     public Territory HoveredTerritory { get; private set; }
     public HashSet<Territory> SelectedTerritories { get; private set; }
+    public bool SelectionEnabled = true;
 
     private PlayerStats playerStats;
 
     public void OnHoverTerritory(Territory t)
     {
+        if (!t.CanBePlayerTargeted()) return;
         HoveredTerritory?.button.Unhover();
         HoveredTerritory = t;
     }
 
     public void OnUnhoverTerritory(Territory t)
     {
-        HoveredTerritory?.button.Unhover();
+        if (HoveredTerritory == null) return;
+        HoveredTerritory.button.Unhover();
         foreach (Territory neighbor in HoveredTerritory.Neighbors)
         {
             neighbor.button.Unhover();
@@ -31,6 +34,7 @@ public class MapSelection : MonoBehaviour
 
     public void OnClickTerritory(Territory t)
     {
+        if (!t.CanBePlayerTargeted()) return;
         if (SelectedTerritories.Contains(t))
         {
             SelectedTerritories.Remove(t);
@@ -57,7 +61,7 @@ public class MapSelection : MonoBehaviour
     {
         playerStats = ServiceLocator.Get<PlayerStats>();
         
-        if (HoveredTerritory != null)
+        if (SelectionEnabled && HoveredTerritory != null)
         {
             HoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
             foreach (Territory neighbor in HoveredTerritory.Neighbors)

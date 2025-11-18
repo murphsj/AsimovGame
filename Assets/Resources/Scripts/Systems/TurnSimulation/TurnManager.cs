@@ -23,10 +23,42 @@ public class TurnManager : MonoBehaviour
     private void GenerateTurnActions()
     {
         turnActions.Clear();
+
+        if (Day == 1)
+        {
+            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower));
+        }
+
+        HashSet<Territory> toAttack = new HashSet<Territory>();
+
+        // Pick enemy attack targets
+        for (int i = 0; i < playerStats.EnemyAttackTargetCount; i++)
+        {
+            Territory target;
+            do
+            {
+                target = Territory.AllTerritories[Random.Range(0, Territory.AllTerritories.Count)];
+            } while (toAttack.Contains(target));
+            toAttack.Add(target);
+        }
+
         // Generate the player's attack action
-        turnActions.Enqueue(new InfectChangeAction(
-            new HashSet<Territory>(mapSelection.SelectedTerritories), playerStats.AttackPower
-        ));
+        foreach (Territory target in mapSelection.SelectedTerritories)
+        {
+            turnActions.Enqueue(new InfectChangeAction(target, playerStats.AttackPower));
+            if (toAttack.Contains(target))
+            {
+                // Enqueue the counterattack action early so it happens right after
+                turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
+                toAttack.Remove(target);
+            }
+        }
+
+        // Now we can add the enemy attack actions that are remaining
+        foreach (Territory target in toAttack)
+        {
+            turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
+        }
     }
 
     private IEnumerator RunTurnAction(ITurnAction action)
@@ -42,6 +74,8 @@ public class TurnManager : MonoBehaviour
         {
             yield return RunTurnAction(action);
         }
+
+        EndDayAdvance();
     }
 
     private void HandleOnDayAdvance()
@@ -50,6 +84,12 @@ public class TurnManager : MonoBehaviour
         GenerateTurnActions();
         StartCoroutine(ProcessTurnActionQueue());
         mapSelection.ClearSelection();
+        mapSelection.SelectionEnabled = false;
+    }
+
+    private void EndDayAdvance()
+    {
+        mapSelection.SelectionEnabled = true;
     }
 
     void Awake()

@@ -5,6 +5,9 @@ using Unity.Mathematics;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections;
+using UnityEngine.Events;
+using System.Linq;
+using Services;
 
 [Serializable]
 class TerritoryData
@@ -25,20 +28,23 @@ class MapData
 
 public class Territory
 {
-    
+    public static List<Territory> AllTerritories { get; private set; } = new List<Territory>();
     private static MapData mapData;
+    private static PlayerStats playerStats;
 
     public string Name { get; private set; }
     public List<Territory> Neighbors { get; private set; }
     public int[] Machines { get; private set; }
     public int[] Infection { get; private set; }
     public int[] BaseResistance { get; private set; }
+    public UnityEvent InfectionChanged;
     
     public TerritoryButton button;
 
-    public static void SetMapData(TextAsset jsonFile)
+    public static void Init(TextAsset jsonFile)
     {
         mapData = JsonConvert.DeserializeObject<MapData>(jsonFile.text);
+        playerStats = ServiceLocator.Get<PlayerStats>();
     }
 
     Territory(TerritoryData data)
@@ -48,6 +54,13 @@ public class Territory
         Infection = new int[] { 0, 0, 0 };
         BaseResistance = data.resistance;
         Neighbors = new List<Territory>();
+
+        for (int i = 0; i < BaseResistance.Count(); i++)
+        {
+            BaseResistance[i] *= -1;
+        }
+
+        AllTerritories.Add(this);
     }
 
     public float GetInfectedPercent(MachineType mType)
@@ -70,43 +83,41 @@ public class Territory
         }
     }
 
-    public void ChangeInfectionLevels(int[] changeLevel)
+    public void SetInfectionLevels(int[] changeLevel)
     {
         for (int i = 0; i < 3; i++)
         {
-            Infection[i] += changeLevel[i];
+            SetInfectionLevel((MachineType)i, changeLevel[i]);
         }
 
         button.UpdateVisuals();
     }
-    
-    public IEnumerator ChangeInfectionLevelsAnimated(int[] changeLevel, float animationTime)
+
+    public void SetInfectionLevel(MachineType mType, int changeLevel)
     {
-        float timePassed = 0;
-        float[] velocity = new float[3];
-        float[] current = new float[3] { Infection[0], Infection[1], Infection[2] };
+        Infection[(int)mType] = Math.Clamp(changeLevel, 0, 100);
+    }
 
-        while (timePassed < animationTime)
+    public bool IsOverInfectionThreshold(float level)
+    {
+        for (int i = 0; i < 3; i++)
         {
-            timePassed += Time.deltaTime;
-            for (int i = 0; i < 3; i++)
-            {
-                current[i] = Mathf.SmoothDamp(
-                    current[i],
-                    Infection[i] + changeLevel[i],
-                    ref velocity[i],
-                    animationTime
-                );
-
-                Infection[i] = Mathf.RoundToInt(current[i]);
-            }
-
-            button.UpdateVisuals();
-
-            yield return null;
+            if ((float)Infection[i] / Machines[i] >= level) return true;
         }
 
-        ChangeInfectionLevels(changeLevel);
+        return false;
+    }
+
+    public bool CanBePlayerTargeted()
+    {
+        if (IsOverInfectionThreshold(playerStats.TargetInfectedThreshhold)) return true;
+
+        foreach (Territory neighbor in Neighbors)
+        {
+            if (neighbor.IsOverInfectionThreshold(playerStats.TargetInfectedThreshhold)) return true;
+        }
+
+        return false;
     }
 
     public static Territory FromId(byte territoryId)
