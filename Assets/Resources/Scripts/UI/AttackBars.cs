@@ -15,25 +15,28 @@ public class AttackBars : MonoBehaviour
     [SerializeField]
     ProgressBar govBar;
 
-    private const float ANIMATION_TIME = 0.2f;
+    private const float ANIMATION_TIME = 0.3f;
+    private RectTransform rect;
 
     private IEnumerator TransitionHeight(float start, float end)
     {
         float timePassed = 0;
-        float velocity = 0;
-        float height = start;
-
         transform.localScale = new Vector3(1, start, 1);
 
         while (timePassed < ANIMATION_TIME)
         {
             timePassed += Time.deltaTime;
-            height = Mathf.SmoothDamp(height, end, ref velocity, ANIMATION_TIME);
-            transform.localScale = new Vector3(1, height, 1);
+            float lerpFactor = Mathf.SmoothStep(0f, 1f, timePassed / ANIMATION_TIME);
+            transform.localScale = new Vector3(1, Mathf.Lerp(start, end, lerpFactor), 1);
             yield return null;
         }
 
         transform.localScale = new Vector3(1, end, 1);
+    }
+
+    public void MoveToTerritory(Territory t)
+    {
+        rect.anchoredPosition3D = t.button.GetComponent<PolygonRenderer>().GetCenter();
     }
 
     public IEnumerator Open()
@@ -44,8 +47,8 @@ public class AttackBars : MonoBehaviour
 
     public IEnumerator Close()
     {
+        yield return TransitionHeight(1, 0);
         gameObject.SetActive(false);
-        yield return TransitionHeight(0, 1);
     }
 
     public void UpdateBarProgress(Territory t)
@@ -53,5 +56,10 @@ public class AttackBars : MonoBehaviour
         civBar.SetProgress(t.GetInfectedPercent(MachineType.Civ));
         comBar.SetProgress(t.GetInfectedPercent(MachineType.Civ));
         govBar.SetProgress(t.GetInfectedPercent(MachineType.Civ));
+    }
+
+    void Awake()
+    {
+        rect = GetComponent<RectTransform>();
     }
 }

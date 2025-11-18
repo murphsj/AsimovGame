@@ -63,4 +63,16 @@ public class PolygonRenderer : ShapeRenderer, ICanvasRaycastFilter
 
         return answer;
     }
+
+    public Vector2 GetCenter()
+    {
+        List<Vector2> verts = GetVerticesWorldSpace();
+        Vector2 sum = Vector2.zero;
+        foreach (Vector2 vert in verts)
+        {
+            sum += vert;
+        }
+
+        return sum / verts.Count;
+    }
 }

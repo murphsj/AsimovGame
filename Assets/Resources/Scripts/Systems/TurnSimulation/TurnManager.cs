@@ -24,9 +24,17 @@ public class TurnManager : MonoBehaviour
     {
         turnActions.Clear();
         // Generate the player's attack action
-        turnActions.Enqueue(new InfectChangeAction(
-            new HashSet<Territory>(mapSelection.SelectedTerritories), playerStats.AttackPower
-        ));
+        foreach (Territory t in mapSelection.SelectedTerritories)
+        {
+            turnActions.Enqueue(new InfectChangeAction(t, playerStats.AttackPower));
+        }
+
+        // Generate counterattack
+        for (int i = 0; i < playerStats.EnemyAttackTargetCount; i++)
+        {
+            Territory target = Territory.AllTerritories[Random.Range(0, Territory.AllTerritories.Count)];
+            turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
+        }
     }
 
     private IEnumerator RunTurnAction(ITurnAction action)
@@ -42,6 +50,8 @@ public class TurnManager : MonoBehaviour
         {
             yield return RunTurnAction(action);
         }
+
+        EndDayAdvance();
     }
 
     private void HandleOnDayAdvance()
@@ -51,6 +61,11 @@ public class TurnManager : MonoBehaviour
         StartCoroutine(ProcessTurnActionQueue());
         mapSelection.ClearSelection();
         mapSelection.SelectionEnabled = false;
+    }
+
+    private void EndDayAdvance()
+    {
+        mapSelection.SelectionEnabled = true;
     }
 
     void Awake()

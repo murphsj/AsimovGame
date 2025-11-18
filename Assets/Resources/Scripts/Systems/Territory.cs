@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine.Events;
+using System.Linq;
 
 [Serializable]
 class TerritoryData
@@ -26,7 +27,7 @@ class MapData
 
 public class Territory
 {
-    
+    public static List<Territory> AllTerritories { get; private set; } = new List<Territory>();
     private static MapData mapData;
 
     public string Name { get; private set; }
@@ -50,6 +51,13 @@ public class Territory
         Infection = new int[] { 0, 0, 0 };
         BaseResistance = data.resistance;
         Neighbors = new List<Territory>();
+
+        for (int i = 0; i < BaseResistance.Count(); i++)
+        {
+            BaseResistance[i] *= -1;
+        }
+
+        AllTerritories.Add(this);
     }
 
     public float GetInfectedPercent(MachineType mType)
@@ -72,14 +80,19 @@ public class Territory
         }
     }
 
-    public void ChangeInfectionLevels(int[] changeLevel)
+    public void SetInfectionLevels(int[] changeLevel)
     {
         for (int i = 0; i < 3; i++)
         {
-            Infection[i] += changeLevel[i];
+            SetInfectionLevel((MachineType)i, changeLevel[i]);
         }
 
         button.UpdateVisuals();
+    }
+
+    public void SetInfectionLevel(MachineType mType, int changeLevel)
+    {
+        Infection[(int)mType] = Math.Clamp(changeLevel, 0, 100);
     }
 
     public static Territory FromId(byte territoryId)
