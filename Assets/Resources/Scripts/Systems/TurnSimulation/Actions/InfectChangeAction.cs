@@ -12,6 +12,21 @@ public class InfectChangeAction : ITurnAction
     private AttackBars attackBars;
     int[] changeLevel;
 
+    /// <summary>
+    /// Generates an InfectChangeAction for a territory's enemy attack
+    /// (a turn event for that territory "defending" and lowering infection level)
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static InfectChangeAction MakeEnemyAttackAction(Territory t)
+    {
+        return new InfectChangeAction(t, new int[] {
+            (int)(t.BaseResistance[0] * 0.01 * t.Population/3),
+            (int)(t.BaseResistance[1] * 0.01 * t.Population/3),
+            (int)(t.BaseResistance[2] * 0.01 * t.Population/3)
+        });
+    }
+
     public InfectChangeAction(Territory territory, int[] changeLevel)
     {
         this.territory = territory;
@@ -20,6 +35,7 @@ public class InfectChangeAction : ITurnAction
 
     public IEnumerator ChangeInfectionLevelsAnimated(Territory t, int[] changeLevel, float animationTime)
     {
+        Debug.Log(t.Name + " Civ: " + changeLevel[0] + " Com: " + changeLevel[1] + " Gov: " + changeLevel[2]);
         attackBars.UpdateBarProgress(t);
         attackBars.MoveToTerritory(t);
         yield return attackBars.Open();

@@ -35,6 +35,8 @@ public class MapSelection : MonoBehaviour
     public void OnClickTerritory(Territory t)
     {
         if (!t.CanBePlayerTargeted()) return;
+        if (!SelectionEnabled) return;
+        
         if (SelectedTerritories.Contains(t))
         {
             SelectedTerritories.Remove(t);
@@ -59,8 +61,6 @@ public class MapSelection : MonoBehaviour
 
     void Update()
     {
-        playerStats = ServiceLocator.Get<PlayerStats>();
-        
         if (SelectionEnabled && HoveredTerritory != null)
         {
             HoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
@@ -69,6 +69,11 @@ public class MapSelection : MonoBehaviour
                 neighbor.button.UpdateHoverFlash(0.15f, 0.15f);
             }
         }
+    }
+
+    void Start()
+    {
+        playerStats = ServiceLocator.Get<PlayerStats>();
     }
 
     void Awake()
