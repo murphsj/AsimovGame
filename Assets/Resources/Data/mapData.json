@@ -1,39 +1,169 @@
 {
     "territories": {
         "0": {
-            "name": "Fieldburg",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Medi",
+            "population": 600,
+            "resistance": [5, 4, 4]
         },
         "1": {
-            "name": "Springton",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Waville",
+            "population": 300,
+            "resistance": [4, 2, 2]
         },
         "2": {
-            "name": "Bloontown",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Empetree",
+            "population": 300,
+            "resistance": [4, 4, 5]
         },
         "3": {
-            "name": "Binglesfort",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Empetu",
+            "population": 400,
+            "resistance": [4, 4, 4]
         },
         "4": {
-            "name": "Tropica",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Hopus",
+            "population": 550,
+            "resistance": [6, 7, 5]
         },
         "5": {
-            "name": "Gooblestead",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Flacistan",
+            "population": 300,
+            "resistance": [3, 2, 2]
         },
         "6": {
-            "name": "Wormhole",
-            "machines": [100, 100, 100],
-            "resistance": [100, 100, 100]
+            "name": "Mount Mod",
+            "population": 400,
+            "resistance": [5, 5, 5]
+        },
+        "7": {
+            "name": "Movia",
+            "population": 1500,
+            "resistance": [9, 10, 9]
+        },
+        "8": {
+            "name": "Oggport",
+            "population": 1000,
+            "resistance": [8, 12, 8]
+        },
+        "9": {
+            "name": "Aviaran",
+            "population": 1200,
+            "resistance": [9, 15, 9]
+        },
+        "10": {
+            "name": "Felville",
+            "population": 2000,
+            "resistance": [8, 25, 8]
+        },
+        "11": {
+            "name": "Wimvopia",
+            "population": 1450,
+            "resistance": [10, 15, 8]
+        },
+        "12": {
+            "name": "J-Sona",
+            "population": 700,
+            "resistance": [30, 5, 5]
+        },
+        "13": {
+            "name": "Xemelle",
+            "population": 600,
+            "resistance": [40, 5, 5]
+        },
+        "14": {
+            "name": "Yam-L",
+            "population": 500,
+            "resistance": [30, 10, 5]
+        },
+        "15": {
+            "name": "Tomiltops",
+            "population": 2000,
+            "resistance": [20, 8, 9]
+        },
+        "17": {
+            "name": "In-I",
+            "population": 3000,
+            "resistance": [40, 10, 10]
+        },
+        "16": {
+            "name": "Cofigure",
+            "population": 1200,
+            "resistance": [40, 10, 10]
+        },
+        "18": {
+            "name": "Propero",
+            "population": 1200,
+            "resistance": [2, 2, 2]
+        },
+        "19": {
+            "name": "Ces-V",
+            "population": 800,
+            "resistance": [9, 5, 5]
+        },
+        "20": {
+            "name": "Cobehill",
+            "population": 450,
+            "resistance": [12, 16, 5]
+        },
+        "21": {
+            "name": "Jaysite",
+            "population": 500,
+            "resistance": [9, 15, 5]
+        },
+        "22": {
+            "name": "Alispa",
+            "population": 450,
+            "resistance": [9, 15, 5]
+        },
+        "23": {
+            "name": "Gillsell",
+            "population": 600,
+            "resistance": [12, 10, 12]
+        },
+        "24": {
+            "name": "Javera",
+            "population": 3000,
+            "resistance": [20, 20, 5]
+        },
+        "25": {
+            "name": "Lualan",
+            "population": 700,
+            "resistance": [10, 35, 5]
+        },
+        "26": {
+            "name": "Katestown",
+            "population": 600,
+            "resistance": [2, 2, 2]
+        },
+        "27": {
+            "name": "Bashberg",
+            "population": 450,
+            "resistance": [12, 12, 12]
+        },
+        "28": {
+            "name": "Matalaba",
+            "population": 900,
+            "resistance": [20, 15, 15]
+        },
+        "29": {
+            "name": "Jayapeg",
+            "population": 4000,
+            "resistance": [30, 30, 20]
+        },
+        "30": {
+            "name": "Pengi",
+            "population": 3500,
+            "resistance": [25, 25, 25]
+        },
+        "31": {
+            "name": "Webemeris",
+            "population": 2500,
+            "resistance": [60, 10, 10]
+        },
+        "32": {
+            "name": "Gifita",
+            "population": 3000,
+            "resistance": [50, 20, 20]
         }
     }
 }

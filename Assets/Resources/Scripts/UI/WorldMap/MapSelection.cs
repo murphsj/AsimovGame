@@ -1,57 +1,83 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Services;
 
 /// <summary>
-/// A singleton MonoBehavior responsible for handling selection of map tiles.
+/// Handles selection of map tiles.
 /// </summary>
+[RegisterService]
 public class MapSelection : MonoBehaviour
 {
-    public static MapSelection instance { get; private set; }
+    public Territory HoveredTerritory { get; private set; }
+    public HashSet<Territory> SelectedTerritories { get; private set; }
+    public bool SelectionEnabled = true;
 
-    Territory hoveredTerritory;
+    private PlayerStats playerStats;
 
     public void OnHoverTerritory(Territory t)
     {
-        hoveredTerritory?.button.Unhover();
-        hoveredTerritory = t;
+        if (!t.CanBePlayerTargeted()) return;
+        HoveredTerritory?.button.Unhover();
+        HoveredTerritory = t;
     }
 
     public void OnUnhoverTerritory(Territory t)
     {
-        hoveredTerritory?.button.Unhover();
-        foreach (Territory neighbor in hoveredTerritory.neighbors)
+        if (HoveredTerritory == null) return;
+        HoveredTerritory.button.Unhover();
+        foreach (Territory neighbor in HoveredTerritory.Neighbors)
         {
             neighbor.button.Unhover();
         }
-        hoveredTerritory = null;
+        HoveredTerritory = null;
+    }
+
+    public void OnClickTerritory(Territory t)
+    {
+        if (!t.CanBePlayerTargeted()) return;
+        if (!SelectionEnabled) return;
+        
+        if (SelectedTerritories.Contains(t))
+        {
+            SelectedTerritories.Remove(t);
+            t.button.Selected = false;
+        }
+        else if (SelectedTerritories.Count < playerStats.MaxTargetedTerritories)
+        {
+            SelectedTerritories.Add(t);
+            t.button.Selected = true;
+        }
+    }
+    
+    public void ClearSelection()
+    {
+        foreach (Territory t in SelectedTerritories)
+        {
+            t.button.Selected = false;
+        }
+
+        SelectedTerritories.Clear();
     }
 
     void Update()
     {
-        if (hoveredTerritory != null)
+        if (SelectionEnabled && HoveredTerritory != null)
         {
-            hoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
-            foreach (Territory neighbor in hoveredTerritory.neighbors)
+            HoveredTerritory.button.UpdateHoverFlash(0.35f, 0.3f);
+            foreach (Territory neighbor in HoveredTerritory.Neighbors)
             {
                 neighbor.button.UpdateHoverFlash(0.15f, 0.15f);
             }
         }
     }
 
-    private void EnforceSingleton()
+    void Start()
     {
-        // Enforce singleton behavior; delete this instance if one already exists
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
+        playerStats = ServiceLocator.Get<PlayerStats>();
     }
 
     void Awake()
     {
-        EnforceSingleton();
+        SelectedTerritories = new HashSet<Territory>();
     }
 }

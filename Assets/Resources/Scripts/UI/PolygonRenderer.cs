@@ -43,7 +43,7 @@ public class PolygonRenderer : ShapeRenderer, ICanvasRaycastFilter
         rect.sizeDelta = size;
         rect.localScale = new Vector3(1f, 1f, 1f);
         rect.pivot = new Vector2(0f, 0f);
-        rect.anchoredPosition = new Vector2(topLeft.x, topLeft.y - size.y);
+        rect.anchoredPosition3D = new Vector3(topLeft.x, topLeft.y - size.y, 0);
     }
 
     public List<Vector2> GetVerticesWorldSpace()
@@ -62,5 +62,17 @@ public class PolygonRenderer : ShapeRenderer, ICanvasRaycastFilter
         }
 
         return answer;
+    }
+
+    public Vector2 GetCenter()
+    {
+        List<Vector2> verts = GetVerticesWorldSpace();
+        Vector2 sum = Vector2.zero;
+        foreach (Vector2 vert in verts)
+        {
+            sum += vert;
+        }
+
+        return sum / verts.Count;
     }
 }

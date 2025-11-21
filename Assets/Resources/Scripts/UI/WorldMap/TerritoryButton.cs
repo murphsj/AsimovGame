@@ -1,13 +1,19 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
+using Services;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField]
-    public Color32 borderColor;
+    public Color baseColor;
+
+    [SerializeField]
+    public Color fullyInfectedColor;
+
+    [SerializeField]
+    public Color selectedColor;
 
     [SerializeField]
     public float lineThickness;
@@ -17,13 +23,34 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public Territory territory;
 
+    public bool Selected
+    {
+        set
+        {
+            _selected = value;
+            UpdateVisuals();
+        }
+
+        get
+        {
+            return _selected;
+        }
+    }
+
+    private bool _selected;
+    private MapSelection mapSelection;
+    private MapTooltip mapTooltip;
     private Color polyColor;
+    private Color borderColor;
     private PolygonRenderer graphic;
     private RectTransform rect;
     private List<PolyLine> borders;
 
     void Awake()
     {
+        mapSelection = ServiceLocator.Get<MapSelection>();
+        mapTooltip = ServiceLocator.Get<MapTooltip>();
+
         graphic = GetComponent<PolygonRenderer>();
         polyColor = graphic.color;
         rect = GetComponent<RectTransform>();
@@ -33,6 +60,7 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     void Start()
     {
         MakeBorders();
+        UpdateVisuals();
     }
 
     public void UpdateHoverFlash(float flashBrightness, float baseBrightness)
@@ -46,6 +74,24 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         graphic.color = polyColor;
         SetOutlineColor(borderColor);
+    }
+
+    private void SetColor(Color newColor)
+    {
+        polyColor = newColor;
+        borderColor = Color.Lerp(newColor, Color.black, 0.3f);
+        graphic.color = newColor;
+        SetOutlineColor(borderColor);
+    }
+
+    public void UpdateVisuals()
+    {
+        if (_selected)
+        {
+            SetColor(selectedColor);
+        } else {
+            SetColor(Color.Lerp(baseColor, fullyInfectedColor, territory.GetInfectedPercent(MachineType.ALL)));
+        }
     }
     
     private void SetOutlineColor(Color color)
@@ -76,7 +122,7 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             a.y + rect.sizeDelta.y
         ) + rect.anchoredPosition;
 
-        borderRect.anchoredPosition = pos;
+        borderRect.anchoredPosition3D = pos;
         line.localDist = b - a;
         line.thickness = lineThickness;
         line.circleEdgeCount = 5;
@@ -102,13 +148,18 @@ public class TerritoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        MapSelection.instance.OnHoverTerritory(territory);
-        MapTooltip.instance.ShowTooltip(territory);
+        mapSelection.OnHoverTerritory(territory);
+        mapTooltip.ShowTooltip(territory);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        MapSelection.instance.OnUnhoverTerritory(territory);
-        MapTooltip.instance.HideTooltip();
+        mapSelection.OnUnhoverTerritory(territory);
+        mapTooltip.HideTooltip();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        mapSelection.OnClickTerritory(territory);
     }
 }

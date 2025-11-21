@@ -1,30 +1,42 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
+using Services;
+using Unity.VisualScripting;
+using System;
 
 /// <summary>
-/// A singleton behavior for controlling the tooltip shown when hovering over territories.
+/// Manages the tooltip shown when hovering over territories.
 /// </summary>
+[RegisterService]
 public class MapTooltip : MonoBehaviour
 {
-    public static MapTooltip instance { get; private set; }
-
     [SerializeField]
     TextMeshProUGUI tooltipTextLabel;
 
     private RectTransform rect;
-    private PixelPerfectCamera pixelCamera;
+    private Territory activeTerritory;
+
+    private static string InfectPercentString(Territory t, MachineType mType)
+    {
+        return string.Format("{0:0}%", t.GetInfectedPercent(MachineType.Com) * 100);
+    }
 
     void Update()
     {
         rect.anchoredPosition = GuiUtils.GetGuiMousePosition();
+        tooltipTextLabel.text = activeTerritory.Name
+            + "\n<color=#713567>"
+            + InfectPercentString(activeTerritory, MachineType.Civ) + "</color>"
+            + " - <color=#98974B>"
+            + InfectPercentString(activeTerritory, MachineType.Com) + "</color>"
+            + " - <color=#357156>" + InfectPercentString(activeTerritory, MachineType.Gov) + "</color>"
+            + "\nPopulation: " + activeTerritory.Population;
     }
 
     public void ShowTooltip(Territory t)
     {
+        activeTerritory = t;
         gameObject.SetActive(true);
-        tooltipTextLabel.text = t.name;
     }
 
     public void HideTooltip()
@@ -32,22 +44,13 @@ public class MapTooltip : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void EnforceSingleton()
+    void Start()
     {
-        // Enforce singleton behavior; delete this instance if one already exists
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
+        HideTooltip();
     }
 
     void Awake()
     {
-        EnforceSingleton();
         rect = GetComponent<RectTransform>();
     }
 }
