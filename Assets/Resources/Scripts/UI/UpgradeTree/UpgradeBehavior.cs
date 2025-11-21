@@ -4,14 +4,14 @@ using UnityEngine.UI;
 
 public class UpgradeBehavior : Selectable
 {
-    [SerializeField]
-    private Selectable selectable;
     private bool highlighted;
+    private bool unlocked;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         highlighted = false;   
+        unlocked = false;
     }
 
     // Update is called once per frame
