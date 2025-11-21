@@ -1,10 +1,8 @@
 
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Collections;
 using UnityEngine.Events;
 using System.Linq;
 using Services;
@@ -13,7 +11,7 @@ using Services;
 class TerritoryData
 {
     public string name;
-    public int[] machines;
+    public int population;
     public int[] resistance;
 }
 
@@ -34,7 +32,7 @@ public class Territory
 
     public string Name { get; private set; }
     public List<Territory> Neighbors { get; private set; }
-    public int[] Machines { get; private set; }
+    public int Population;
     public int[] Infection { get; private set; }
     public int[] BaseResistance { get; private set; }
     public UnityEvent InfectionChanged;
@@ -50,7 +48,7 @@ public class Territory
     Territory(TerritoryData data)
     {
         Name = data.name;
-        Machines = data.machines;
+        Population = data.population;
         Infection = new int[] { 0, 0, 0 };
         BaseResistance = data.resistance;
         Neighbors = new List<Territory>();
@@ -67,19 +65,16 @@ public class Territory
     {
         if (mType == MachineType.ALL)
         {
-            int totalMachines = 0;
             int totalInfection = 0;
             for (int i = 0; i < 3; i++)
             {
-                totalMachines += Machines[i];
                 totalInfection += Infection[i];
             }
-
-            return (float)totalInfection / totalMachines;
+            return (float)totalInfection / Population;
         }
         else
         {
-            return (float)Infection[(int)mType] / Machines[(int)mType];
+            return (float)Infection[(int)mType] / (Population/3);
         }
     }
 
@@ -95,14 +90,14 @@ public class Territory
 
     public void SetInfectionLevel(MachineType mType, int changeLevel)
     {
-        Infection[(int)mType] = Math.Clamp(changeLevel, 0, 100);
+        Infection[(int)mType] = Math.Clamp(changeLevel, 0, Population/3);
     }
 
     public bool IsOverInfectionThreshold(float level)
     {
         for (int i = 0; i < 3; i++)
         {
-            if ((float)Infection[i] / Machines[i] >= level) return true;
+            if ((float)Infection[i] / (Population/3) >= level) return true;
         }
 
         return false;

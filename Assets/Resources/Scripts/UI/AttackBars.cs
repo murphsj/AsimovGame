@@ -54,8 +54,13 @@ public class AttackBars : MonoBehaviour
     public void UpdateBarProgress(Territory t)
     {
         civBar.SetProgress(t.GetInfectedPercent(MachineType.Civ));
-        comBar.SetProgress(t.GetInfectedPercent(MachineType.Civ));
-        govBar.SetProgress(t.GetInfectedPercent(MachineType.Civ));
+        comBar.SetProgress(t.GetInfectedPercent(MachineType.Com));
+        govBar.SetProgress(t.GetInfectedPercent(MachineType.Gov));
+    }
+
+    void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     void Awake()

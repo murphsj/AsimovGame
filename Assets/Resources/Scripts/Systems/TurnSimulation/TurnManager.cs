@@ -49,7 +49,7 @@ public class TurnManager : MonoBehaviour
             if (toAttack.Contains(target))
             {
                 // Enqueue the counterattack action early so it happens right after
-                turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
+                turnActions.Enqueue(InfectChangeAction.MakeEnemyAttackAction(target));
                 toAttack.Remove(target);
             }
         }
@@ -57,7 +57,7 @@ public class TurnManager : MonoBehaviour
         // Now we can add the enemy attack actions that are remaining
         foreach (Territory target in toAttack)
         {
-            turnActions.Enqueue(new InfectChangeAction(target, target.BaseResistance));
+            turnActions.Enqueue(InfectChangeAction.MakeEnemyAttackAction(target));
         }
     }
 
