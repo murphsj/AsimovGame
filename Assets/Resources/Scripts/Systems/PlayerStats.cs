@@ -30,7 +30,7 @@ public class PlayerStats
     {
         Upgrades = new HashSet<Upgrade>
         {
-            new TestUpgrade()
+            new ShopUpgrades.SuspiciousAdvertisement()
         };
     } 
 }

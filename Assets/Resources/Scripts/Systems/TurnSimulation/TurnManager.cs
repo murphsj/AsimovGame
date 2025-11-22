@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour
 
         if (Day == 1)
         {
-            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower));
+            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower, true));
         }
 
         HashSet<Territory> toAttack = new HashSet<Territory>();
@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour
         // Generate the player's attack action
         foreach (Territory target in mapSelection.SelectedTerritories)
         {
-            turnActions.Enqueue(new InfectChangeAction(target, playerStats.AttackPower));
+            turnActions.Enqueue(new InfectChangeAction(target, playerStats.AttackPower, true));
             if (toAttack.Contains(target))
             {
                 // Enqueue the counterattack action early so it happens right after

@@ -1,21 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using Services;
 
+[RegisterService]
 public class TreeManager : MonoBehaviour
 {
     [SerializeField]
     private Button buyButton;
+
+    [SerializeField]
+    private UpgradeCategoryButton[] categoryButtons;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         buyButton.interactable = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SelectCategory(int categoryId)
     {
-
+        
     }
 }

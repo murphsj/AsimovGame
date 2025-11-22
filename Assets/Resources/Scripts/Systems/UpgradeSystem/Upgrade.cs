@@ -1,9 +1,7 @@
 public abstract class Upgrade {
-    public readonly int Cost = 0;
-
-    public readonly string Name = "MISSING UPGRADE";
-
-    public readonly string Description = "No Description";
+    public int Cost { get; protected set; } = 0;
+    public string Name { get; protected set; } = "NAME MISSING";
+    public string Description { get; protected set; } = "DESCRIPTION MISSING";
 
     public void OnPurchase(PlayerStats playerStats)
     {

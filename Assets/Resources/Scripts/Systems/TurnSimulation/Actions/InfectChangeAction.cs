@@ -11,6 +11,7 @@ public class InfectChangeAction : ITurnAction
     private Territory territory;
     private AttackBars attackBars;
     public int[] changeLevel;
+    public bool isPlayer;
 
     /// <summary>
     /// Generates an InfectChangeAction for a territory's enemy attack
@@ -24,13 +25,14 @@ public class InfectChangeAction : ITurnAction
             (int)(t.BaseResistance[0] * 0.01 * t.Population/3),
             (int)(t.BaseResistance[1] * 0.01 * t.Population/3),
             (int)(t.BaseResistance[2] * 0.01 * t.Population/3)
-        });
+        }, false);
     }
 
-    public InfectChangeAction(Territory territory, int[] changeLevel)
+    public InfectChangeAction(Territory territory, int[] changeLevel, bool isPlayer)
     {
         this.territory = territory;
         this.changeLevel = new int[3];
+        this.isPlayer = isPlayer;
         // To avoid changing the original if changeLevel is modified
         Array.Copy(changeLevel, this.changeLevel, 3);
     }
