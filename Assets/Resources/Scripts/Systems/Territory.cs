@@ -31,10 +31,11 @@ public class Territory
     private static PlayerStats playerStats;
 
     public string Name { get; private set; }
-    public List<Territory> Neighbors { get; private set; }
+    public List<Territory> Neighbors;
     public int Population;
-    public int[] Infection { get; private set; }
-    public int[] BaseResistance { get; private set; }
+    public int[] Infection;
+    public int[] BaseResistance;
+    public bool ResourceGainTriggered = false;
     public UnityEvent InfectionChanged;
     
     public TerritoryButton button;

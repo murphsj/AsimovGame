@@ -5,8 +5,8 @@ namespace ShopUpgrades
         public SuspiciousAdvertisement()
         {
             Name = "Suspicious Advertisement";
-            Description = @"Direct attacks deal +0.7x CIV damage
-“Download now!”";
+            Description = @"Direct attacks deal +0.5x CIV damage
+""Download now!""";
             Cost = 50;
         }
 
@@ -14,7 +14,7 @@ namespace ShopUpgrades
         {
             if (action.isPlayer)
             {
-                action.changeLevel[0] *= 3;
+                action.changeLevel[0] = (int)(action.changeLevel[0] * 1.5f);
             }
         }
     }

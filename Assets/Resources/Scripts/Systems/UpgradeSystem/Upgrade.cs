@@ -3,7 +3,7 @@ public abstract class Upgrade {
     public string Name { get; protected set; } = "NAME MISSING";
     public string Description { get; protected set; } = "DESCRIPTION MISSING";
 
-    public void OnPurchase(PlayerStats playerStats)
+    public virtual void OnPurchase(PlayerStats playerStats)
     {
         playerStats.Upgrades.Add(this);
     }

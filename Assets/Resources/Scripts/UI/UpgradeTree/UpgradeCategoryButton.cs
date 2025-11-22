@@ -1,28 +1,24 @@
 using Services;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UpgradeCategoryButton : MonoBehaviour
+public class UpgradeCategoryButton : Selectable
 {
     [SerializeField]
     int categoryId = 0;
 
     private TreeManager treeManager;
-    private Button button;
 
-    void OnCategorySelect()
+    public override void OnSelect(BaseEventData eventData)
     {
-        treeManager.Select(categoryId);
+        base.OnSelect(eventData);
+        treeManager.SelectCategory(categoryId);
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         treeManager = ServiceLocator.Get<TreeManager>();
-    }
-
-    void Awake()
-    {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(OnCategorySelect);
     }
 }

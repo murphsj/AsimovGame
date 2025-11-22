@@ -10,6 +10,7 @@ public class InfectChangeAction : ITurnAction
     private const float PAUSE_BETWEEN_SECONDS = 0.1f;
     private Territory territory;
     private AttackBars attackBars;
+    private PlayerStats playerStats;
     public int[] changeLevel;
     public bool isPlayer;
 
@@ -90,6 +91,7 @@ public class InfectChangeAction : ITurnAction
     public void Start(TurnManager turnManager)
     {
         attackBars = ServiceLocator.Get<AttackBars>();
+        playerStats = ServiceLocator.Get<PlayerStats>();
     }
 
     public IEnumerator Run(TurnManager turnManager)
@@ -97,6 +99,12 @@ public class InfectChangeAction : ITurnAction
         yield return ChangeInfectionLevelsAnimated(
             changeLevel, ANIMATION_TIME_SECONDS
         );
+
+        if (!territory.ResourceGainTriggered && territory.GetInfectedPercent(MachineType.ALL) > 0.5)
+        {
+            territory.ResourceGainTriggered = true;
+            playerStats.Resources += 20;
+        }
 
         yield return new WaitForSeconds(PAUSE_BETWEEN_SECONDS);
     }

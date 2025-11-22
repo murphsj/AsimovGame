@@ -13,18 +13,18 @@ using Unity.VisualScripting;
 public class TurnManager : MonoBehaviour
 {
     public UnityEvent AdvanceDay;
-    public int Day { get; private set; } = 0;
 
     private MapSelection mapSelection;
     private PlayerStats playerStats;
     private MapLoader loader;
     private Queue<ITurnAction> turnActions;
+    private bool inDayCutscene = false;
 
     private void GenerateTurnActions()
     {
         turnActions.Clear();
 
-        if (Day == 1)
+        if (playerStats.Day == 1)
         {
             turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower, true));
         }
@@ -87,16 +87,20 @@ public class TurnManager : MonoBehaviour
 
     private void HandleOnDayAdvance()
     {
-        Day++;
+        if (inDayCutscene) return;
+        playerStats.Day++;
         GenerateTurnActions();
         StartCoroutine(ProcessTurnActionQueue());
         mapSelection.ClearSelection();
         mapSelection.SelectionEnabled = false;
+        inDayCutscene = true;
     }
 
     private void EndDayAdvance()
     {
+        playerStats.Resources += 10;
         mapSelection.SelectionEnabled = true;
+        inDayCutscene = false;
     }
 
     void Awake()
