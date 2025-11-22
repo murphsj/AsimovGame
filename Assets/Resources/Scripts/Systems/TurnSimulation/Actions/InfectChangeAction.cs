@@ -33,41 +33,55 @@ public class InfectChangeAction : ITurnAction
         this.changeLevel = changeLevel;
     }
 
-    public IEnumerator ChangeInfectionLevelsAnimated(Territory t, int[] changeLevel, float animationTime)
+    public IEnumerator ChangeInfectionLevelsAnimated(int[] changeLevel, float animationTime)
     {
-        Debug.Log(t.Name + " Civ: " + changeLevel[0] + " Com: " + changeLevel[1] + " Gov: " + changeLevel[2]);
-        attackBars.UpdateBarProgress(t);
-        attackBars.MoveToTerritory(t);
-        yield return attackBars.Open();
+        Debug.Log(territory.Name + " Civ: " + changeLevel[0] + " Com: " + changeLevel[1] + " Gov: " + changeLevel[2]);
+        attackBars.UpdateBarProgress(territory);
+        attackBars.MoveToTerritory(territory);
 
         float timePassed = 0;
-        float[] start = new float[3] { t.Infection[0], t.Infection[1], t.Infection[2] };
-        float[] current = new float[3] { t.Infection[0], t.Infection[1], t.Infection[2] };
+        float[] start = new float[3] { territory.Infection[0], territory.Infection[1], territory.Infection[2] };
+        float[] current = new float[3] { territory.Infection[0], territory.Infection[1], territory.Infection[2] };
         float[] target = new float[3] {
-            t.Infection[0] + changeLevel[0],
-            t.Infection[1] + changeLevel[1],
-            t.Infection[2] + changeLevel[2]
+            territory.Infection[0] + changeLevel[0],
+            territory.Infection[1] + changeLevel[1],
+            territory.Infection[2] + changeLevel[2]
         };
 
-        while (timePassed < animationTime)
+        bool allSame = true;
+        for (int i = 0; i < 3; i++)
         {
-            timePassed += Time.deltaTime;
-
-            float lerpFactor = Mathf.SmoothStep(0f, 1f, timePassed / animationTime);
-            
-            for (int i = 0; i < 3; i++)
+            if (Math.Clamp(target[i], 0, territory.Population/3) != current[i])
             {
-                current[i] = Mathf.Lerp(start[i], target[i], lerpFactor);
-                t.SetInfectionLevel((MachineType)i, Mathf.RoundToInt(current[i]));
+                allSame = false;
+                break;
             }
-
-            t.button.UpdateVisuals();
-            attackBars.UpdateBarProgress(t);
-
-            yield return null;
         }
 
-        yield return attackBars.Close();
+        if (!allSame)
+        {
+            yield return attackBars.Open();
+
+            while (timePassed < animationTime)
+            {
+                timePassed += Time.deltaTime;
+
+                float lerpFactor = Mathf.SmoothStep(0f, 1f, timePassed / animationTime);
+                
+                for (int i = 0; i < 3; i++)
+                {
+                    current[i] = Mathf.Lerp(start[i], target[i], lerpFactor);
+                    territory.SetInfectionLevel((MachineType)i, Mathf.RoundToInt(current[i]));
+                }
+
+                territory.button.UpdateVisuals();
+                attackBars.UpdateBarProgress(territory);
+
+                yield return null;
+            }
+
+            yield return attackBars.Close();
+        }
     }
 
     public void Start(TurnManager turnManager)
@@ -77,8 +91,10 @@ public class InfectChangeAction : ITurnAction
 
     public IEnumerator Run(TurnManager turnManager)
     {
+        
+
         yield return ChangeInfectionLevelsAnimated(
-            territory, changeLevel, ANIMATION_TIME_SECONDS
+            changeLevel, ANIMATION_TIME_SECONDS
         );
 
         yield return new WaitForSeconds(PAUSE_BETWEEN_SECONDS);

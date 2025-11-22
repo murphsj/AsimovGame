@@ -114,7 +114,7 @@ public class MapLoader : MonoBehaviour
         for (int i = 0; i < coords.Length - 2; i += 2)
         {
             float x = float.Parse(coords[i]);
-            float y = float.Parse(coords[i + 1]);
+            float y = float.Parse(coords[i + 1]) - 27;
             Vector2 pos = new Vector2(x, y);
             ToWorldCoords(ref pos);
             points.Add(pos);

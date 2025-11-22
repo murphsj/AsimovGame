@@ -18,7 +18,7 @@ public class MapTooltip : MonoBehaviour
 
     private static string InfectPercentString(Territory t, MachineType mType)
     {
-        return string.Format("{0:0}%", t.GetInfectedPercent(MachineType.Com) * 100);
+        return string.Format("{0:0}%", t.GetInfectedPercent(mType) * 100);
     }
 
     void Update()

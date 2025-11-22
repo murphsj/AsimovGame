@@ -11,7 +11,7 @@ public class PlayerStats
     /// <summary>
     /// The base infection change that the player inflicts on targeted territories during their turn.
     /// </summary>
-    public int[] AttackPower = new int[] { 50, 50, 50 };
+    public int[] AttackPower = new int[] { 20, 20, 20 };
 
     /// <summary>
     /// The number of territories an enemy will target per turn.
