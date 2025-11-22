@@ -10,7 +10,7 @@ public class InfectChangeAction : ITurnAction
     private const float PAUSE_BETWEEN_SECONDS = 0.1f;
     private Territory territory;
     private AttackBars attackBars;
-    int[] changeLevel;
+    public int[] changeLevel;
 
     /// <summary>
     /// Generates an InfectChangeAction for a territory's enemy attack
@@ -30,12 +30,13 @@ public class InfectChangeAction : ITurnAction
     public InfectChangeAction(Territory territory, int[] changeLevel)
     {
         this.territory = territory;
-        this.changeLevel = changeLevel;
+        this.changeLevel = new int[3];
+        // To avoid changing the original if changeLevel is modified
+        Array.Copy(changeLevel, this.changeLevel, 3);
     }
 
     public IEnumerator ChangeInfectionLevelsAnimated(int[] changeLevel, float animationTime)
     {
-        Debug.Log(territory.Name + " Civ: " + changeLevel[0] + " Com: " + changeLevel[1] + " Gov: " + changeLevel[2]);
         attackBars.UpdateBarProgress(territory);
         attackBars.MoveToTerritory(territory);
 
@@ -91,8 +92,6 @@ public class InfectChangeAction : ITurnAction
 
     public IEnumerator Run(TurnManager turnManager)
     {
-        
-
         yield return ChangeInfectionLevelsAnimated(
             changeLevel, ANIMATION_TIME_SECONDS
         );

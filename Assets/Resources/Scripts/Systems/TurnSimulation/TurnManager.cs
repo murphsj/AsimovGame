@@ -63,6 +63,13 @@ public class TurnManager : MonoBehaviour
 
     private IEnumerator RunTurnAction(ITurnAction action)
     {
+        foreach (Upgrade upgrade in playerStats.Upgrades)
+        {
+            if (upgrade is IUpgradeActionListener listener)
+            {
+                listener.OnAction(playerStats, action);
+            }
+        }
         action.Start(this);
         yield return action.Run(this);
         action.End(this);

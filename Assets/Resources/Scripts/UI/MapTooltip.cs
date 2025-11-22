@@ -1,8 +1,6 @@
 using TMPro;
 using UnityEngine;
 using Services;
-using Unity.VisualScripting;
-using System;
 
 /// <summary>
 /// Manages the tooltip shown when hovering over territories.
@@ -26,10 +24,10 @@ public class MapTooltip : MonoBehaviour
         rect.anchoredPosition = GuiUtils.GetGuiMousePosition();
         tooltipTextLabel.text = activeTerritory.Name
             + "\n<color=#713567>"
-            + InfectPercentString(activeTerritory, MachineType.Civ) + "</color>"
+            + InfectPercentString(activeTerritory, MachineType.Gov) + "</color>"
             + " - <color=#98974B>"
             + InfectPercentString(activeTerritory, MachineType.Com) + "</color>"
-            + " - <color=#357156>" + InfectPercentString(activeTerritory, MachineType.Gov) + "</color>"
+            + " - <color=#357156>" + InfectPercentString(activeTerritory, MachineType.Civ) + "</color>"
             + "\nPopulation: " + activeTerritory.Population;
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Services;
 
 [RegisterService]
@@ -23,8 +24,13 @@ public class PlayerStats
     /// </summary>
     public float TargetInfectedThreshhold = 0.15f;
 
+    public HashSet<Upgrade> Upgrades { get; private set; }
+
     public PlayerStats()
     {
-        
+        Upgrades = new HashSet<Upgrade>
+        {
+            new TestUpgrade()
+        };
     } 
 }
