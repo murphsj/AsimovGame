@@ -14,7 +14,11 @@ public class StatBarText : MonoBehaviour
         statsText.text = "Day "
             + playerStats.Day
             + "\tResources: "
-            + playerStats.Resources;
+            + playerStats.Resources
+            + "\tNotice: Lv"
+            + playerStats.NoticeLevel
+            + " " + playerStats.NoticeProgress
+            + "/" + playerStats.ToNextNoticeLevel;
     }
 
     void Start()

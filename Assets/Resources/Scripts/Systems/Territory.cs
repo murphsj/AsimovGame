@@ -26,9 +26,15 @@ class MapData
 
 public class Territory
 {
+    public static readonly Color MESSAGE_COLOR_RESOURCES = new Color(0.824f, 0.918f, 0.941f);
+    public static readonly Color MESSAGE_COLOR_GOV = new Color(0.451f, 0.231f, 0.329f);
+    public static readonly Color MESSAGE_COLOR_COM = new Color(0.859f, 0.733f, 0.333f);
+    public static readonly Color MESSAGE_COLOR_CIV = new Color(0.471f, 0.8f, 0.49f);
     public static List<Territory> AllTerritories { get; private set; } = new List<Territory>();
+
     private static MapData mapData;
     private static PlayerStats playerStats;
+    private static MessageSpawner messageSpawner;
 
     public string Name { get; private set; }
     public List<Territory> Neighbors;
@@ -44,6 +50,7 @@ public class Territory
     {
         mapData = JsonConvert.DeserializeObject<MapData>(jsonFile.text);
         playerStats = ServiceLocator.Get<PlayerStats>();
+        messageSpawner = ServiceLocator.Get<MessageSpawner>();
     }
 
     Territory(TerritoryData data)
@@ -128,5 +135,12 @@ public class Territory
 
         TerritoryData data = mapData.territories[territoryId];
         return new Territory(data);
+    }
+
+    public void MakeMessage(string text, Color color)
+    {
+        messageSpawner.MakeMessage(
+            text, color, button.GetComponent<PolygonRenderer>().GetCenter()
+        );
     }
 }

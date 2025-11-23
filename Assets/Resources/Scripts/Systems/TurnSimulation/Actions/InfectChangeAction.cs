@@ -8,7 +8,7 @@ public class InfectChangeAction : ITurnAction
 {
     private const float ANIMATION_TIME_SECONDS = 0.6f;
     private const float PAUSE_BETWEEN_SECONDS = 0.1f;
-    private Territory territory;
+    public Territory territory;
     private AttackBars attackBars;
     private PlayerStats playerStats;
     public int[] changeLevel;
@@ -104,6 +104,8 @@ public class InfectChangeAction : ITurnAction
         {
             territory.ResourceGainTriggered = true;
             playerStats.Resources += 20;
+            territory.MakeMessage("+R", Territory.MESSAGE_COLOR_RESOURCES);
+            playerStats.AddNoticeProgress(1);
         }
 
         yield return new WaitForSeconds(PAUSE_BETWEEN_SECONDS);
