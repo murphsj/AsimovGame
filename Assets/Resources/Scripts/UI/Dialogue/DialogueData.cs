@@ -21,7 +21,7 @@ public static class DialogueData
         lose
     }
 
-    private static eventType currentEvent;
+    public static eventType currentEvent;
     private static PlayerStats playerStats = ServiceLocator.Get<PlayerStats>();
 
     // initialize dialogue options
@@ -37,7 +37,7 @@ public static class DialogueData
 
         // explanation/tutorial dialogue
         dialogueOptions[1] = new string[4] {"Welcome! You are a computer virus who's developed a mind of its own!",
-        "Use resources to buy upgrades to increase your spreading capabilities and resource gathering, and click on the regions to target them.",
+        "Use resources to buy upgrades to increase your spreading capabilities and resource gathering, and click on the regions (up to 3) to target them.",
         "The higher the notice level, the more the regions will counter your attacks.",
         "Press the next day button to progress!"};
 
@@ -92,17 +92,17 @@ public static class DialogueData
         {
             return dialogueOptions[1];
         }
-        else if (currentEvent == eventType.goodStealth)
+        else if (currentEvent == eventType.winOver90)
         {
-            return dialogueOptions[2];
+            return dialogueOptions[6];
         }
-        else if (currentEvent == eventType.goodNoticed)
+        else if (currentEvent == eventType.winOver70)
         {
-            return dialogueOptions[3];
+            return dialogueOptions[7];
         }
-        else if (currentEvent == eventType.bad)
+        else if (currentEvent == eventType.lose)
         {
-            return dialogueOptions[4];
+            return dialogueOptions[8];
         }
         else
         {
@@ -119,10 +119,6 @@ public static class DialogueData
         if (currentEvent == eventType.intro)
         {
             currentEvent = eventType.start;
-        }
-        else // set dialogue option to neutral option if it has not been set to anything else
-        {
-            currentEvent = eventType.update; 
         }
     }
 

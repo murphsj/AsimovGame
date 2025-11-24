@@ -35,6 +35,16 @@ public class MapLoader : MonoBehaviour
 
     List<TerritoryButton> allMapTerritories;
 
+    public static Stream GenerateStreamFromString(string s)
+    {
+        MemoryStream stream = new MemoryStream();
+        StreamWriter writer = new StreamWriter(stream);
+        writer.Write(s);
+        writer.Flush();
+        stream.Position = 0;
+        return stream;
+    }
+
     private static void ToWorldCoords(ref Vector2 pos)
     {
         pos.y *= -1;
@@ -151,10 +161,9 @@ public class MapLoader : MonoBehaviour
     {
         Territory.Init(mapData);
 
-        using (FileStream fs = File.OpenRead(Application.dataPath + @"/Resources/worldMap.svg"))
-        {
-            LoadSVG(fs);
-        }
+        mapData = Resources.Load<TextAsset>("worldMap");
+
+        LoadSVG(GenerateStreamFromString(mapData.text));
     }
 
     void Awake()

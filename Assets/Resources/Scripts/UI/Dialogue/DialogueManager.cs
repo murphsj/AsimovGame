@@ -8,6 +8,7 @@ using Services;
 /// <summary>
 /// Displays the dialogue in the popup dialogue window after an event occurs
 /// </summary>
+[RegisterService]
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField]
@@ -53,15 +54,10 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        if (messageDismissed && playerStats.Day == 0 && DialogueData.getCurrentEventType() == DialogueData.eventType.start)
+        if (messageDismissed && playerStats.Day == -1 && DialogueData.getCurrentEventType() == DialogueData.eventType.start)
         {
             StartDialogue();
-        }
-
-        if (messageDismissed && playerStats.Day == 50)
-        {
-            // change the current event type to the correct one based on infection level here
-            StartDialogue();
+            playerStats.Day = 0;
         }
 
         if (!DialogueBox.activeSelf)

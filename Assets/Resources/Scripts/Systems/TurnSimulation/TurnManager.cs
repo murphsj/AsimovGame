@@ -16,6 +16,7 @@ public class TurnManager : MonoBehaviour
 
     private MapSelection mapSelection;
     private PlayerStats playerStats;
+    private DialogueManager dialogueManager;
     private GameOverMessage gameOverMessage;
     private MapLoader loader;
     private Queue<ITurnAction> turnActions;
@@ -27,7 +28,7 @@ public class TurnManager : MonoBehaviour
 
         if (playerStats.Day == 1)
         {
-            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower, true));
+            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], new int[3] {30, 30, 30}, true));
         }
 
         HashSet<Territory> toAttack = new HashSet<Territory>();
@@ -133,6 +134,19 @@ public class TurnManager : MonoBehaviour
 
         if (playerStats.Day == 50)
         {
+            float perc = Territory.GetTotalInfected();
+
+            if (perc > 0.9f)
+            {
+                DialogueData.currentEvent = DialogueData.eventType.winOver90;
+            } else if (perc > 0.7f)
+            {
+                DialogueData.currentEvent = DialogueData.eventType.winOver70;
+            } else
+            {
+                DialogueData.currentEvent = DialogueData.eventType.lose;
+            }
+            dialogueManager.StartDialogue();
             mapSelection.SelectionEnabled = false;
             inDayCutscene = true;
             gameOverMessage.ShowGameOver();
@@ -151,6 +165,7 @@ public class TurnManager : MonoBehaviour
         mapSelection = ServiceLocator.Get<MapSelection>();
         playerStats = ServiceLocator.Get<PlayerStats>();
         gameOverMessage = ServiceLocator.Get<GameOverMessage>();
+        dialogueManager = ServiceLocator.Get<DialogueManager>();
 
         loader.LoadMap();
     }

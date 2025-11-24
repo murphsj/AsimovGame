@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Services;
 using TMPro;
+using System;
 
 [RegisterService]
 public class TreeManager : MonoBehaviour
@@ -28,6 +29,14 @@ public class TreeManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private static string AddKeywordColors(string input)
+    {
+        input = input.Replace("CIV", "<color=#357156>CIV</color>");
+        input = input.Replace("COM", "<color=#98974B>COM</color>");
+        input = input.Replace("GOV", "<color=#713567>GOV</color>");
+        return input;
+    }
+
     public void SelectCategory(int categoryId)
     {
         selectedCategory = categoryId;
@@ -38,7 +47,7 @@ public class TreeManager : MonoBehaviour
             descriptionText.text = "No more upgrades in this category";
         } else {
             nameText.text = upgrade.Name + " - " + upgrade.Cost + " Resources";
-            descriptionText.text = upgrade.Description;
+            descriptionText.text = AddKeywordColors(upgrade.Description);
         }
     }
 
