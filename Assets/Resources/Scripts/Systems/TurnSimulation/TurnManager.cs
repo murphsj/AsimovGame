@@ -16,6 +16,7 @@ public class TurnManager : MonoBehaviour
 
     private MapSelection mapSelection;
     private PlayerStats playerStats;
+    private GameOverMessage gameOverMessage;
     private MapLoader loader;
     private Queue<ITurnAction> turnActions;
     private bool inDayCutscene = false;
@@ -129,6 +130,13 @@ public class TurnManager : MonoBehaviour
                 listener.OnDayEnd(playerStats);
             }
         }
+
+        if (playerStats.Day == 50)
+        {
+            mapSelection.SelectionEnabled = false;
+            inDayCutscene = true;
+            gameOverMessage.ShowGameOver();
+        }
     }
 
     void Awake()
@@ -142,6 +150,7 @@ public class TurnManager : MonoBehaviour
     {
         mapSelection = ServiceLocator.Get<MapSelection>();
         playerStats = ServiceLocator.Get<PlayerStats>();
+        gameOverMessage = ServiceLocator.Get<GameOverMessage>();
 
         loader.LoadMap();
     }

@@ -70,7 +70,7 @@ public class PlayerStats
     public HashSet<Upgrade> Upgrades { get; private set; }
 
     private int _resources = 8000;
-    private int _day = 0;
+    private int _day = 49;
 
     public PlayerStats()
     {
