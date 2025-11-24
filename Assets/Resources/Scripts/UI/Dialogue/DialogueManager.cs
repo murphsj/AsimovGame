@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Displays the dialogue in the popup dialogue window after an event occurs
+/// </summary>
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField]
-    private Image DialogueBox;
+    private GameObject DialogueBox;
     [SerializeField]
     private TextMeshProUGUI dialogueText;
 
@@ -35,7 +38,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (!messageSent)
         {
-            if (lineSent) //after each line completes being written out
+            if (lineSent) //after each line completes being written out, then it starts writing the next line
             {
                 lineSent = false;
                 NextLine();
@@ -47,12 +50,14 @@ public class DialogueManager : MonoBehaviour
     {
         index = 0;
         dialogueText.text = string.Empty;
+        DialogueBox.SetActive(true);
         StartCoroutine(TypeLine());
     }
 
     private IEnumerator TypeLine()
     {
-        char[] dialogueChars = DialogueData.currentEventDialogue().ToCharArray();
+        string[] currentDialogue = DialogueData.currentEventDialogue();
+        char[] dialogueChars = currentDialogue[index].ToCharArray();
         for (int i = 0; i < dialogueChars.Length; i++)
         {
             dialogueText.text += dialogueChars[i];
@@ -65,11 +70,7 @@ public class DialogueManager : MonoBehaviour
                 yield return new WaitForSeconds(textSpeed);
             }
         }
-        // foreach (char c in introDialogue[index].ToCharArray())
-        // {
-        //     dialogueText.text += c;
-        //     yield return new WaitForSeconds(textSpeed);
-        // }
+
         lineSent = true;
     }
 

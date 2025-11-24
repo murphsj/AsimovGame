@@ -1756,10 +1756,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.13816103
-    y: 0.08038445
-    width: 0.72415435
-    height: 0.83879423
+    x: 0.14625058
+    y: 0.06349207
+    width: 0.7079646
+    height: 0.8707483
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -6100,9 +6100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032c8872320379e44a32932678d97c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  DialogueBox: {fileID: 2094912966}
+  DialogueBox: {fileID: 2094912964}
   dialogueText: {fileID: 2121674159}
-  firstEvent: []
   textSpeed: 0
 --- !u!1 &2119895799
 GameObject:

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Services;
 
+/// <summary>
+/// Where to access all of the dialogue information
+/// </summary>
 public static class DialogueData
 {
     private static string[][] dialogueOptions;
