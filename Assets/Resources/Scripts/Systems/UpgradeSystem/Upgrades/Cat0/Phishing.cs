@@ -7,7 +7,7 @@ namespace ShopUpgrades
             Name = "Phishing";
             Description = @"Direct attacks deal +0.7x COM damage
 ""Click here to get a free promotion!""";
-            Cost = 70;
+            Cost = 50;
         }
 
         public override void OnAction(PlayerStats playerStats, InfectChangeAction action)

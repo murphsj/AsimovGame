@@ -15,7 +15,8 @@ public static class ShopCategoryItems
             {new InitiationPhase()},
             {new Phishing()},
             {new PrivEsc()},
-            {new ZeroDay()}
+            {new ZeroDay()},
+            {new BruteForce()}
         };
 
         items[1] = new List<Upgrade>()
@@ -23,7 +24,8 @@ public static class ShopCategoryItems
             {new Refactor()},
             {new Multithreading()},
             {new ClusterComputing()},
-            {new Fractionalization()}
+            {new Fractionalization()},
+            {new DDOS()}
         };
 
         items[2] = new List<Upgrade>()
@@ -35,9 +37,18 @@ public static class ShopCategoryItems
         items[3] = new List<Upgrade>()
         {
             {new EmailWorm()},
-            {new Incubator()},
             {new MacroVirus()},
-            {new ViralInfection()}
+            {new AttackVector()},
+            {new Incubator()},
+            {new ViralInfection()},
+            {new AdaptiveResponse()}
+        };
+
+        items[4] = new List<Upgrade>()
+        {
+            {new EncryptionLayer()},
+            {new InputRedirection()},
+            {new RKit()}
         };
     }
 

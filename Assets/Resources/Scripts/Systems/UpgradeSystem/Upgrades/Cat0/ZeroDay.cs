@@ -27,6 +27,7 @@ but will accrue +3 Notice";
             }
 
             playerStats.AddNoticeProgress(3);
+            alreadyTriggered.Add(action.territory);
 
             action.territory.MakeMessage("+ZeroDay", Territory.MESSAGE_COLOR_GOV);
         }

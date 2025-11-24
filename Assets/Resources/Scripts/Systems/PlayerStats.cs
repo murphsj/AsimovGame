@@ -69,15 +69,12 @@ public class PlayerStats
     public UnityEvent BarStatsChanged = new UnityEvent();
     public HashSet<Upgrade> Upgrades { get; private set; }
 
-    private int _resources = 50;
+    private int _resources = 8000;
     private int _day = 0;
 
     public PlayerStats()
     {
-        Upgrades = new HashSet<Upgrade>()
-        {
-
-        };
+        Upgrades = new HashSet<Upgrade>();
     } 
 
     public void AddNoticeLevel()

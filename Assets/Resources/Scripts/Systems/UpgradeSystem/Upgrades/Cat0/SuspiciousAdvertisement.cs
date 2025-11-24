@@ -7,7 +7,7 @@ namespace ShopUpgrades
             Name = "Suspicious Advertisement";
             Description = @"Direct attacks deal +0.5x CIV damage
 ""Download now!""";
-            Cost = 25;
+            Cost = 20;
         }
 
         public override void OnAction(PlayerStats playerStats, InfectChangeAction action)

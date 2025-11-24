@@ -35,6 +35,7 @@ public class Territory
     private static MapData mapData;
     private static PlayerStats playerStats;
     private static MessageSpawner messageSpawner;
+    private static int totalPopulation = 0;
 
     public string Name { get; private set; }
     public List<Territory> Neighbors;
@@ -51,6 +52,22 @@ public class Territory
         mapData = JsonConvert.DeserializeObject<MapData>(jsonFile.text);
         playerStats = ServiceLocator.Get<PlayerStats>();
         messageSpawner = ServiceLocator.Get<MessageSpawner>();
+    }
+
+    public static float GetTotalInfected()
+    {
+        int totalInfected = 0;
+        int totalPopulation = 0;
+        foreach (Territory t in AllTerritories)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                totalPopulation += t.Population/3;
+                totalInfected += t.Infection[i];
+            }
+        }
+
+        return (float)totalInfected / totalPopulation;
     }
 
     Territory(TerritoryData data)

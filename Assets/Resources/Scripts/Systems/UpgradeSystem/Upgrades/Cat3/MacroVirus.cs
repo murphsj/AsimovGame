@@ -17,7 +17,7 @@ namespace ShopUpgrades
             {
                 if (t.GetInfectedPercent(MachineType.ALL) > 0.25)
                 {
-                    t.SetInfectionLevel(MachineType.Civ, t.Infection[(int)MachineType.Civ] + 45);
+                    t.SetInfectionLevel(MachineType.Com, t.Infection[(int)MachineType.Com] + 45);
                     t.button.UpdateVisuals();
                 }
             }

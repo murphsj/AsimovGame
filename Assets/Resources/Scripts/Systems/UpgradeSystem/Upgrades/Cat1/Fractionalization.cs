@@ -9,8 +9,8 @@ namespace ShopUpgrades
         public Fractionalization()
         {
             Name = "Fractionalization";
-            Description = @"Direct attacks also deal 10% of their damage to neighboring territories";
-            Cost = 300;
+            Description = @"Direct attacks also deal 25% of their damage to neighboring territories";
+            Cost = 250;
         }
 
         public override void OnAction(PlayerStats playerStats, InfectChangeAction action)
@@ -26,7 +26,7 @@ namespace ShopUpgrades
 
             for (int i = 0; i < 3; i++)
             {
-                deltaInfectionLevel[i] = Mathf.RoundToInt((action.territory.Infection[i] - startInfectionLevel[i])*0.1f);
+                deltaInfectionLevel[i] = Mathf.RoundToInt((action.territory.Infection[i] - startInfectionLevel[i])*0.25f);
             }
 
             foreach (Territory neighbor in action.territory.Neighbors)

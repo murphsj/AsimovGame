@@ -7,8 +7,8 @@ namespace ShopUpgrades
         public Incubator()
         {
             Name = "Incubator";
-            Description = @"If you end a day making no direct attacks, all territories with >0%
-infection gain 15% CIV and COM infection";
+            Description = @"If you end a day making no direct attacks, all territories with >0% infection gain 15% CIV and COM
+infection";
             Cost = 150;
         }
 

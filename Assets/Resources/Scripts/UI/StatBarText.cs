@@ -9,6 +9,11 @@ public class StatBarText : MonoBehaviour
 
     private PlayerStats playerStats;
 
+    private static string PercentString(float perc)
+    {
+        return string.Format("{0:0}%", perc * 100);
+    }
+
     private void OnStatBarUpdate()
     {
         statsText.text = "Day "
@@ -18,7 +23,8 @@ public class StatBarText : MonoBehaviour
             + "\tNotice: Lv"
             + playerStats.NoticeLevel
             + " " + playerStats.NoticeProgress
-            + "/" + playerStats.ToNextNoticeLevel;
+            + "/" + playerStats.ToNextNoticeLevel
+            + "\tTotal Infection: " + PercentString(Territory.GetTotalInfected());
     }
 
     void Start()
