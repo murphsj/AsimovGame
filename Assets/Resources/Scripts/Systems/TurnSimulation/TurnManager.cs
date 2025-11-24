@@ -13,20 +13,20 @@ using Unity.VisualScripting;
 public class TurnManager : MonoBehaviour
 {
     public UnityEvent AdvanceDay;
-    public int Day { get; private set; } = 0;
 
     private MapSelection mapSelection;
     private PlayerStats playerStats;
     private MapLoader loader;
     private Queue<ITurnAction> turnActions;
+    private bool inDayCutscene = false;
 
     private void GenerateTurnActions()
     {
         turnActions.Clear();
 
-        if (Day == 1)
+        if (playerStats.Day == 1)
         {
-            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower));
+            turnActions.Enqueue(new InfectChangeAction(Territory.AllTerritories[0], playerStats.AttackPower, true));
         }
 
         HashSet<Territory> toAttack = new HashSet<Territory>();
@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour
         // Generate the player's attack action
         foreach (Territory target in mapSelection.SelectedTerritories)
         {
-            turnActions.Enqueue(new InfectChangeAction(target, playerStats.AttackPower));
+            turnActions.Enqueue(new InfectChangeAction(target, playerStats.AttackPower, true));
             if (toAttack.Contains(target))
             {
                 // Enqueue the counterattack action early so it happens right after
@@ -54,18 +54,36 @@ public class TurnManager : MonoBehaviour
             }
         }
 
+        playerStats.AttacksMadeThisTurn = mapSelection.SelectedTerritories.Count;
+
         // Now we can add the enemy attack actions that are remaining
         foreach (Territory target in toAttack)
         {
             turnActions.Enqueue(InfectChangeAction.MakeEnemyAttackAction(target));
         }
+
+        playerStats.AddNoticeProgress(1);
     }
 
     private IEnumerator RunTurnAction(ITurnAction action)
     {
+        foreach (Upgrade upgrade in playerStats.Upgrades)
+        {
+            if (upgrade is IUpgradeActionListener listener)
+            {
+                listener.OnActionStart(playerStats, action);
+            }
+        }
         action.Start(this);
         yield return action.Run(this);
         action.End(this);
+        foreach (Upgrade upgrade in playerStats.Upgrades)
+        {
+            if (upgrade is IUpgradeActionListener listener)
+            {
+                listener.OnActionEnd(playerStats, action);
+            }
+        }
     }
 
     private IEnumerator ProcessTurnActionQueue()
@@ -80,16 +98,37 @@ public class TurnManager : MonoBehaviour
 
     private void HandleOnDayAdvance()
     {
-        Day++;
+        if (inDayCutscene) return;
+
+        foreach (Upgrade upgrade in playerStats.Upgrades)
+        {
+            if (upgrade is IUpgradeDayListener listener)
+            {
+                listener.OnDayStart(playerStats);
+            }
+        }
+
+        playerStats.Day++;
         GenerateTurnActions();
         StartCoroutine(ProcessTurnActionQueue());
         mapSelection.ClearSelection();
         mapSelection.SelectionEnabled = false;
+        inDayCutscene = true;
     }
 
     private void EndDayAdvance()
     {
+        playerStats.Resources += 10;
         mapSelection.SelectionEnabled = true;
+        inDayCutscene = false;
+
+        foreach (Upgrade upgrade in playerStats.Upgrades)
+        {
+            if (upgrade is IUpgradeDayListener listener)
+            {
+                listener.OnDayEnd(playerStats);
+            }
+        }
     }
 
     void Awake()
