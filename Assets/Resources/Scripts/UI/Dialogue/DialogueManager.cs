@@ -58,6 +58,12 @@ public class DialogueManager : MonoBehaviour
             StartDialogue();
         }
 
+        if (messageDismissed && playerStats.Day == 50)
+        {
+            // change the current event type to the correct one based on infection level here
+            StartDialogue();
+        }
+
         if (!DialogueBox.activeSelf)
         {
             messageDismissed = true;
