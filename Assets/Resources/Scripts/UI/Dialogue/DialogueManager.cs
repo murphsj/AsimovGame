@@ -11,11 +11,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI dialogueText;
 
-    // the dialogue
-    private string[] introDialogue;
-    [SerializeField]
-    private string[] firstEvent;
-
     // variables to change progression speed
     [SerializeField]
     private float textSpeed;
@@ -32,12 +27,6 @@ public class DialogueManager : MonoBehaviour
         messageSent = false;
         lineSent = false;
         nextLineSpeed = 1f;
-
-        introDialogue = new string[5] {"Hacker001: Alright, the malware's been launched. Every day it should spread further and further until we've infected the whole world!",
-                        "Hacker002: Guys, take a look at this!",
-                        "Hacker001: Hm?",
-                        "........!",
-                        "Hacker003: What's this? It's making decisions all on its own!"};
         StartDialogue();
     }
 
@@ -63,7 +52,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeLine()
     {
-        char[] dialogueChars = introDialogue[index].ToCharArray();
+        char[] dialogueChars = DialogueData.currentEventDialogue().ToCharArray();
         for (int i = 0; i < dialogueChars.Length; i++)
         {
             dialogueText.text += dialogueChars[i];
@@ -86,7 +75,7 @@ public class DialogueManager : MonoBehaviour
 
     private void NextLine()
     {
-        if(index < introDialogue.Length - 1)
+        if(index < DialogueData.currentEventDialogue().Length - 1)
         {
             index++;
             dialogueText.text += "\n";
