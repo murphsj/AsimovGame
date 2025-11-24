@@ -30,7 +30,7 @@ public static class DialogueData
                         "Hacker001: Hm?",
                         "All: ........!",
                         "Hacker003: What's this? It's making decisions all on its own!"};
-        dialogueOptions[1] = new string[4] {"Welcome! You are some computer malware who's developed a mind of its own!",
+        dialogueOptions[1] = new string[4] {"Welcome! You are a computer virus who's developed a mind of its own!",
         "Use resources to buy upgrades to increase your spreading capabilities and resource gathering, and click on the regions to target them.",
         "The higher the notice level, the more the regions will counter your attacks.",
         "Press the next day button to progress!"};
@@ -80,8 +80,25 @@ public static class DialogueData
         }
     }
 
-    public static void setEventType(eventType eT)
+    public static void updateEventType()
+    {
+        if (currentEvent == eventType.intro)
+        {
+            currentEvent = eventType.start;
+        }
+        else // set dialogue option to neutral option if it has not been set to anything else
+        {
+            currentEvent = eventType.update; 
+        }
+    }
+
+    // overloaded version to update the currentEvent directly
+    public static void updateEventType(eventType eT)
     {
         currentEvent = eT;
+    }
+    public static eventType getCurrentEventType()
+    {
+        return currentEvent;
     }
 }

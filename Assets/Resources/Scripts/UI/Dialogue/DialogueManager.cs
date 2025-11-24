@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Services;
 
 /// <summary>
 /// Displays the dialogue in the popup dialogue window after an event occurs
@@ -22,13 +23,19 @@ public class DialogueManager : MonoBehaviour
 
     private bool messageSent;
     private bool lineSent;
+
+    private bool messageDismissed; //to indicate when the next message can pop up
+
+    private PlayerStats playerStats;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerStats = ServiceLocator.Get<PlayerStats>();
         dialogueText.text = string.Empty;
         messageSent = false;
         lineSent = false;
+        messageDismissed = false;
         nextLineSpeed = 1f;
         StartDialogue();
     }
@@ -41,16 +48,30 @@ public class DialogueManager : MonoBehaviour
             if (lineSent) //after each line completes being written out, then it starts writing the next line
             {
                 lineSent = false;
+                Debug.Log("line sent");
                 NextLine();
             }
+        }
+
+        if (messageDismissed && playerStats.Day == 0 && DialogueData.getCurrentEventType() == DialogueData.eventType.start)
+        {
+            StartDialogue();
+        }
+
+        if (!DialogueBox.activeSelf)
+        {
+            messageDismissed = true;
         }
     }
 
     public void StartDialogue()
     {
+        Debug.Log("Pop up!");
         index = 0;
         dialogueText.text = string.Empty;
         DialogueBox.SetActive(true);
+        messageDismissed = false;
+        messageSent = false;
         StartCoroutine(TypeLine());
     }
 
@@ -78,6 +99,7 @@ public class DialogueManager : MonoBehaviour
     {
         if(index < DialogueData.currentEventDialogue().Length - 1)
         {
+            Debug.Log("next line");
             index++;
             dialogueText.text += "\n";
             StartCoroutine(TypeLine());
@@ -85,6 +107,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             messageSent = true;
+            DialogueData.updateEventType();
         }
     }
 }
